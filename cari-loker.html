@@ -39,11 +39,16 @@
           </li>
         </ul>
         
-        <form class="d-flex align-items-center gap-2">
-          <a href="masuk.html" class="text-decoration-none"
-          style="font-family: 'Inter', sans-serif; color: #95b1ee; font-size: 0.90rem;">Masuk</a>
-          <a href="masukperusahaan.html" class="btn btn-primary btn-sm"
-          style="font-family: 'Inter', sans-serif; background-color: #e7f1a8; border-color: #e7f1a8; color: black; font-size: 0.90rem">Masuk Perusahaan</a>
+        <form class="d-flex align-items-center mx-1">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #e7f1a8; color: black; font-size: 0.90rem">
+              Masuk
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="masuk.html">Masuk sebagai Pencari Kerja</a></li>
+              <li><a class="dropdown-item" href="masukperusahaan.html">Masuk sebagai Perusahaan</a></li>
+            </ul>
+          </div>
         </form>
       </div>
     </div>
@@ -107,28 +112,19 @@
   
             <!-- Filter Dropdowns -->
             <div class="col-md d-flex flex-wrap justify-content-md-end gap-2 bg-light">
-                <select class="form-select w-auto" style="border: 1px solid black;">
-                    <option selected>On Site & Remote</option>
-                    <option>On Site</option>
-                    <option>Remote</option>
+                <select class="form-select w-auto bg-light" style="border: 1px solid black;">
+                  <option selected>Semua Jenis Loker</option>
+                  <option>Full Time</option>
+                  <option>Part Time</option>
                 </select>
   
                 <select class="form-select w-auto bg-light" style="border: 1px solid black;">
-                    <option selected>Semua Jenis Loker</option>
-                    <option>Full Time</option>
-                    <option>Part Time</option>
-                </select>
-  
-                <select class="form-select w-auto bg-light" style="border: 1px solid black;">
-                    <option selected>Semua Pendidikan</option>
-                    <option>SMA/SMK</option>
-                    <option>D3</option>
-                    <option>Sarjana</option>
-                </select>
-  
-                <select class="form-select w-auto bg-light" style="border: 1px solid black;">
-                    <option selected>Terbaru</option>
-                    <option>Terlama</option>
+                  <option selected>Semua Pendidikan</option>
+                  <option>SMA/SMK</option>
+                  <option>D3</option>
+                  <option>S1</option>
+                  <option>S2</option>
+                  <option>S3</option>
                 </select>
             </div>
         </div>
@@ -449,56 +445,56 @@
         </div>
     </div>
 
-    <footer class="text-white py-5 mt-3" style="background-color: #364C84;">
-        <div class="container">
-          <div class="row">
-            <!-- Logo dan Deskripsi -->
-            <div class="col-md-5">
-              <div class="d-flex align-items-start mb-3">
-                <img src="logo careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
-              </div>
-              <p class="text-white" style="max-width: 500px;">
-                CareerBridge adalah platform yang membantu pencari kerja menemukan pekerjaan yang tepat dan memudahkan perusahaan dalam merekrut karyawan. Dengan sistem yang mudah digunakan, CareerBridge membuat proses mencari kerja dan perekrutan menjadi lebih cepat dan efisien.
-              </p>
+    <footer class="text-dark py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          <!-- Logo dan Deskripsi -->
+          <div class="col-md-5">
+            <div class="d-flex align-items-start mb-3">
+              <img src="logo careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
             </div>
-      
-            <!-- Tentang Kami -->
-            <div class="col-md-2">
-              <h6 class="fw-bold">Tentang Kami</h6>
-              <div class="d-flex flex-column">
-                <a href="pusatbantuan.html" class="text-white text-decoration-none mb-1">Pusat Bantuan</a>
-                <a href="kebijakanprivasi.html" class="text-white text-decoration-none mb-1">Kebijakan Privasi</a>
-                <a href="snk.html" class="text-white text-decoration-none mb-1">Kondisi dan Ketentuan</a>
-              </div>
-            </div>
-      
-            <!-- Pencari Kerja -->
-            <div class="col-md-2">
-              <h6 class="fw-bold">Pencari Kerja</h6>
-              <div class="d-flex flex-column">
-                <a href="daftarpekerja.html" class="text-white text-decoration-none mb-1">Registrasi Pencari Kerja</a>
-                <a href="cari-loker.html" class="text-white text-decoration-none mb-1">Cari Lowongan Kerja</a>
-                <a href="artikel.html" class="text-white text-decoration-none mb-1">Tips Loker</a>
-              </div>
-            </div>
-      
-            <!-- Perusahaan -->
-            <div class="col-md-3">
-              <h6 class="fw-bold">Perusahaan</h6>
-              <div class="d-flex flex-column">
-                <a href="masukperusahaan.html" class="text-white text-decoration-none mb-1">Registrasi Perusahaan</a>
-                <a href="pasang-loker.html" class="text-white text-decoration-none mb-1">Pasang Loker</a>
-              </div>
+            <p class="text-muted" style="max-width: 500px;">
+              CareerBridge adalah platform yang membantu pencari kerja menemukan pekerjaan yang tepat dan memudahkan perusahaan dalam merekrut karyawan. Dengan sistem yang mudah digunakan, CareerBridge membuat proses mencari kerja dan perekrutan menjadi lebih cepat dan efisien.
+            </p>
+          </div>
+    
+          <!-- Tentang Kami -->
+          <div class="col-md-2">
+            <h6 class="fw-bold">Tentang Kami</h6>
+            <div class="d-flex flex-column">
+              <a href="pusatbantuan.html" class="text-muted text-decoration-none mb-1">Pusat Bantuan</a>
+              <a href="kebijakanprivasi.html" class="text-muted text-decoration-none mb-1">Kebijakan Privasi</a>
+              <a href="snk.html" class="text-muted text-decoration-none mb-1">Kondisi dan Ketentuan</a>
             </div>
           </div>
-      
-          <!-- Copyright -->
-          <div class="text-center mt-4 text-white small">
-            <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
+    
+          <!-- Pencari Kerja -->
+          <div class="col-md-2">
+            <h6 class="fw-bold">Pencari Kerja</h6>
+            <div class="d-flex flex-column">
+              <a href="daftarpekerja.html" class="text-muted text-decoration-none mb-1">Registrasi Pencari Kerja</a>
+              <a href="cari-loker.html" class="text-muted text-decoration-none mb-1">Cari Lowongan Kerja</a>
+              <a href="artikel.html" class="text-muted text-decoration-none mb-1">Tips Loker</a>
+            </div>
+          </div>
+    
+          <!-- Perusahaan -->
+          <div class="col-md-3">
+            <h6 class="fw-bold">Perusahaan</h6>
+            <div class="d-flex flex-column">
+              <a href="masukperusahaan.html" class="text-muted text-decoration-none mb-1">Registrasi Perusahaan</a>
+              <a href="pasang-loker.html" class="text-muted text-decoration-none mb-1">Pasang Loker</a>
+            </div>
           </div>
         </div>
-      </footer>
+    
+        <!-- Copyright -->
+        <div class="text-center mt-4 text-muted small">
+          <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
+        </div>
+      </div>
+    </footer>
   
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

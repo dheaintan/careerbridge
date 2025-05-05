@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard Perusahaan</title>
+    <link rel="icon" type="image/x-icon" href="logo careerbridge.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="./assets/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand text-decoration-none">
+                <img src="logo careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
+            </a>
+
+            <div class="container my-4">
+                <h3>Dashboard Perusahaan</h3>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <!-- Ringkasan -->
+        <div class="row my-4">
+            <div class="col-md-4">
+                <div class="card text-dark mb-3" style="background-color: #95B1EE;">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Lowongan</h5>
+                        <p class="card-text fs-4">5</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-dark mb-3" style="background-color: #E7F1A8;">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Pelamar</h5>
+                        <p class="card-text fs-4">72</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white mb-3" style="background-color: #364C84;">
+                    <div class="card-body">
+                        <h5 class="card-title">Profil Perusahaan</h5>
+                        <p class="card-text">PT. Tech Global<br>techglobal@example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daftar Lowongan -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span>Daftar Lowongan</span>
+                <a href="tambah-lowongan.html" class="btn btn-sm btn-primary">+ Tambah Lowongan</a>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Posisi</th>
+                            <th>Lokasi</th>
+                            <th>Tanggal Posting</th>
+                            <th>Pelamar</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>UI/UX Designer</td>
+                            <td>Surabaya</td>
+                            <td>01 April 2025</td>
+                            <td>25</td>
+                            <td>
+                                <a href="lihat-pelamar.html" class="btn btn-sm btn-info">Lihat Pelamar</a>
+                                <a href="edit-lowongan.html" class="btn btn-sm btn-warning">Edit Lowongan</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center py-3 mt-5">
+        <small>&copy; 2025 CareerBridge. All rights reserved.</small>
+    </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
