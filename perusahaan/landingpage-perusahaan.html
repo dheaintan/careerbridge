@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CareerBridge</title>
-    <link rel="icon" type="image/x-icon" href="logo careerbridge.png">
+    <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="./assets/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body class="bg-light">
@@ -17,7 +17,7 @@
 
         <div class="container-fluid">
           <a class="navbar-brand text-decoration-none">
-            <img src="logo careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
+            <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
           </a>
         
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"  data-bs-target="#navbarTogglerDemo02"aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,28 +27,22 @@
           <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="./pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
+                <a class="nav-link active" aria-current="page" href="../pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
               </li>
               
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="./perusahaan/pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
+                <a class="nav-link active" aria-current="page" href="pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
+                <a class="nav-link active" aria-current="page" href="../artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
               </li>
             </ul>
             
             <form class="d-flex align-items-center mx-1">
-              <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #e7f1a8; color: black; font-size: 0.90rem">
-                  Masuk
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="./pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
-                  <li><a class="dropdown-item" href="./perusahaan/masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
-                </ul>
-              </div>
+                <a href="dashboard-perusahaan.php" class="btn" style="color: black; font-size: 0.90rem;">
+                    <i class="bi bi-person-circle fs-3"></i>
+                </a>
             </form>
           </div>
         </div>
@@ -57,7 +51,6 @@
 
     <div class="container-fluid">
       <div class="row d-flex align-items-center p-5" style="background-color: #364c84;">
-        
         <!-- Teks -->
         <div class="col-md-6" style="background-color: #364c84;">
           <div class="row">
@@ -120,9 +113,8 @@
 
     <!-- Card -->
     <div class="row row-cols-1 row-cols-md-3 g-4 mx-auto bg-light">
-      
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -154,7 +146,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -186,7 +178,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -218,7 +210,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -250,7 +242,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -282,7 +274,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -314,7 +306,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -346,7 +338,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -378,7 +370,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -410,7 +402,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -442,7 +434,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -474,7 +466,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
+        <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='../perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
           <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
             <i class="bi bi-heart"></i>
           </button>
@@ -517,7 +509,7 @@
           <!-- Logo dan Deskripsi -->
           <div class="col-md-5">
             <div class="d-flex align-items-start mb-3">
-              <img src="logo careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
+              <img src="../logo%20careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
             </div>
             <p class="text-muted" style="max-width: 500px;">
               CareerBridge adalah platform yang membantu pencari kerja menemukan pekerjaan yang tepat dan memudahkan perusahaan dalam merekrut karyawan. Dengan sistem yang mudah digunakan, CareerBridge membuat proses mencari kerja dan perekrutan menjadi lebih cepat dan efisien.
@@ -528,9 +520,9 @@
           <div class="col-md-2">
             <h6 class="fw-bold">Tentang Kami</h6>
             <div class="d-flex flex-column">
-              <a href="pusatbantuan.html" class="text-muted text-decoration-none mb-1">Pusat Bantuan</a>
-              <a href="kebijakanprivasi.html" class="text-muted text-decoration-none mb-1">Kebijakan Privasi</a>
-              <a href="snk.html" class="text-muted text-decoration-none mb-1">Kondisi dan Ketentuan</a>
+              <a href="../pusatbantuan.html" class="text-muted text-decoration-none mb-1">Pusat Bantuan</a>
+              <a href="../kebijakanprivasi.html" class="text-muted text-decoration-none mb-1">Kebijakan Privasi</a>
+              <a href="../snk.html" class="text-muted text-decoration-none mb-1">Kondisi dan Ketentuan</a>
             </div>
           </div>
     
@@ -538,9 +530,9 @@
           <div class="col-md-2">
             <h6 class="fw-bold">Pencari Kerja</h6>
             <div class="d-flex flex-column">
-              <a href="./pelamar/daftarpekerja.php" class="text-muted text-decoration-none mb-1">Registrasi Pencari Kerja</a>
-              <a href="./pelamar/cari-loker.php" class="text-muted text-decoration-none mb-1">Cari Lowongan Kerja</a>
-              <a href="artikel.html" class="text-muted text-decoration-none mb-1">Tips Loker</a>
+              <a href="../pelamar/daftarpekerja.php" class="text-muted text-decoration-none mb-1">Registrasi Pencari Kerja</a>
+              <a href="../pelamar/cari-loker.php" class="text-muted text-decoration-none mb-1">Cari Lowongan Kerja</a>
+              <a href="../artikel.html" class="text-muted text-decoration-none mb-1">Tips Loker</a>
             </div>
           </div>
     
@@ -548,8 +540,8 @@
           <div class="col-md-3">
             <h6 class="fw-bold">Perusahaan</h6>
             <div class="d-flex flex-column">
-              <a href="./perusahaan/masukperusahaan.php" class="text-muted text-decoration-none mb-1">Registrasi Perusahaan</a>
-              <a href="./perusahaan/pasang-loker.php" class="text-muted text-decoration-none mb-1">Pasang Loker</a>
+              <a href="masukperusahaan.php" class="text-muted text-decoration-none mb-1">Registrasi Perusahaan</a>
+              <a href="pasang-loker.php" class="text-muted text-decoration-none mb-1">Pasang Loker</a>
             </div>
           </div>
         </div>

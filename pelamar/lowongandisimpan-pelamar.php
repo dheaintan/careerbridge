@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lowongan Disimpan</title>
-    <link rel="icon" type="image/x-icon" href="logo careerbridge.png">
+    <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="./assets/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <a class="navbar-brand text-decoration-none">
-                <img src="logo careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
+                <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
             </a>
 
             <div class="container my-4">
@@ -55,8 +55,8 @@
     </div>
   </div>
 
-  <footer class="bg-light text-center py-3 mt-5">
-    <small>&copy; 2025 CareerBridge. All rights reserved.</small>
-  </footer>
+  <div class="text-center mt-4 text-muted small">
+    <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
+  </div>
 </body>
 </html>

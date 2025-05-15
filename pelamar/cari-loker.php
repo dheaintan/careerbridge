@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cari Lowongan Kerja</title>
-    <link rel="icon" type="image/x-icon" href="logo careerbridge.png">
+    <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="./assets/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -17,7 +17,7 @@
 
     <div class="container-fluid">
       <a class="navbar-brand text-decoration-none">
-        <img src="logo careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
+        <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
       </a>
     
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"  data-bs-target="#navbarTogglerDemo02"aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,7 @@
           </li>
           
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="pasang-loker.html" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
+            <a class="nav-link active" aria-current="page" href="./perusahaan/pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
           </li>
 
           <li class="nav-item">
@@ -45,8 +45,8 @@
               Masuk
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="masuk.html">Masuk sebagai Pencari Kerja</a></li>
-              <li><a class="dropdown-item" href="masukperusahaan.html">Masuk sebagai Perusahaan</a></li>
+              <li><a class="dropdown-item" href="../masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
+              <li><a class="dropdown-item" href="./perusahaan/masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
             </ul>
           </div>
         </form>
@@ -134,7 +134,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 mx-auto bg-light">
 
         <div class="col">
-            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='detail-pekerjaan.html'" style="cursor: pointer">
+            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
               <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);"><i class="bi bi-heart"></i></button>
               <div class="card-body d-flex">
                 <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -164,7 +164,7 @@
         </div>
 
         <div class="col">
-            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='detail-pekerjaan.html'" style="cursor: pointer">
+            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
               <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);"><i class="bi bi-heart"></i></button>
               <div class="card-body d-flex">
                 <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -194,7 +194,7 @@
         </div>
 
         <div class="col">
-            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='detail-pekerjaan.html'" style="cursor: pointer">
+            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
               <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);"><i class="bi bi-heart"></i></button>
               <div class="card-body d-flex">
                 <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -224,7 +224,7 @@
         </div>
 
         <div class="col">
-            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='detail-pekerjaan.html'" style="cursor: pointer">
+            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
               <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);"><i class="bi bi-heart"></i></button>
               <div class="card-body d-flex">
                 <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -254,7 +254,7 @@
         </div>
 
         <div class="col">
-            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='detail-pekerjaan.html'" style="cursor: pointer">
+            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
               <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);"><i class="bi bi-heart"></i></button>
               <div class="card-body d-flex">
                 <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -284,7 +284,7 @@
         </div>
 
         <div class="col">
-            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='detail-pekerjaan.html'" style="cursor: pointer">
+            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
               <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);"><i class="bi bi-heart"></i></button>
               <div class="card-body d-flex">
                 <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -314,7 +314,7 @@
         </div>
 
         <div class="col">
-            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='detail-pekerjaan.html'" style="cursor: pointer">
+            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
               <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);"><i class="bi bi-heart"></i></button>
               <div class="card-body d-flex">
                 <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -344,7 +344,7 @@
         </div>
 
         <div class="col">
-            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='detail-pekerjaan.html'" style="cursor: pointer">
+            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
               <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);"><i class="bi bi-heart"></i></button>
               <div class="card-body d-flex">
                 <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -374,7 +374,7 @@
         </div>
 
         <div class="col">
-            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='detail-pekerjaan.html'" style="cursor: pointer">
+            <div class="card h-100 border rounded-4 bg-white shadow-sm" onclick="window.location.href='./perusahaan/detail-pekerjaan.php'" style="cursor: pointer">
               <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);"><i class="bi bi-heart"></i></button>
               <div class="card-body d-flex">
                 <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -472,8 +472,8 @@
           <div class="col-md-2">
             <h6 class="fw-bold">Pencari Kerja</h6>
             <div class="d-flex flex-column">
-              <a href="daftarpekerja.html" class="text-muted text-decoration-none mb-1">Registrasi Pencari Kerja</a>
-              <a href="cari-loker.html" class="text-muted text-decoration-none mb-1">Cari Lowongan Kerja</a>
+              <a href="./pelamar/daftarpekerja.php" class="text-muted text-decoration-none mb-1">Registrasi Pencari Kerja</a>
+              <a href="./pelamar/cari-loker.php" class="text-muted text-decoration-none mb-1">Cari Lowongan Kerja</a>
               <a href="artikel.html" class="text-muted text-decoration-none mb-1">Tips Loker</a>
             </div>
           </div>
@@ -482,8 +482,8 @@
           <div class="col-md-3">
             <h6 class="fw-bold">Perusahaan</h6>
             <div class="d-flex flex-column">
-              <a href="masukperusahaan.html" class="text-muted text-decoration-none mb-1">Registrasi Perusahaan</a>
-              <a href="pasang-loker.html" class="text-muted text-decoration-none mb-1">Pasang Loker</a>
+              <a href="./perusahaan/masukperusahaan.php" class="text-muted text-decoration-none mb-1">Registrasi Perusahaan</a>
+              <a href="./perusahaan/pasang-loker.php" class="text-muted text-decoration-none mb-1">Pasang Loker</a>
             </div>
           </div>
         </div>

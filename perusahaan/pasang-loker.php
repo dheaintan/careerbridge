@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pasang Iklan Lowongan Kerja</title>
-    <link rel="icon" type="image/x-icon" href="logo careerbridge.png">
+    <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
-    <link href="./assets/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -16,7 +16,7 @@
 
     <div class="container-fluid">
       <a class="navbar-brand text-decoration-none">
-        <img src="logo careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
+        <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
       </a>
     
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"  data-bs-target="#navbarTogglerDemo02"aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,7 +26,7 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="cari-loker.html" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
+                <a class="nav-link active" aria-current="page" href="./pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
             </li>
 
             <li class="nav-item">
@@ -34,7 +34,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
+                <a class="nav-link active" aria-current="page" href="../artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
             </li>
         </ul>
         
@@ -44,8 +44,8 @@
               Masuk
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="masuk.html">Masuk sebagai Pencari Kerja</a></li>
-              <li><a class="dropdown-item" href="masukperusahaan.html">Masuk sebagai Perusahaan</a></li>
+              <li><a class="dropdown-item" href="../pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
+              <li><a class="dropdown-item" href="masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
             </ul>
           </div>
         </form>
@@ -84,21 +84,21 @@
         </p>
         <p class="fw-semibold text-dark">🔍 Pasang iklan loker sekarang dan dapatkan talenta terbaik!</p>
         <div class="d-flex justify-content-center">
-          <a href="masukperusahaan.html" class="btn mt-2 text-white" style="background-color: #364C84;">Pasang Loker Sekarang!</a>
+          <a href="./masukperusahaan.php" class="btn mt-2 text-white" style="background-color: #364C84;">Pasang Loker Sekarang!</a>
         </div>
       </div>
     </div>
   </div>
 
-  <footer class="text-dark py-5 bg-light">
+  <footer class="text-white py-5" style="background-color: #364c84">
     <div class="container">
       <div class="row">
         <!-- Logo dan Deskripsi -->
         <div class="col-md-5">
           <div class="d-flex align-items-start mb-3">
-            <img src="logo careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
+            <img src="../logo%20careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
           </div>
-          <p class="text-muted" style="max-width: 500px;">
+          <p class="text-white" style="max-width: 500px;">
             CareerBridge adalah platform yang membantu pencari kerja menemukan pekerjaan yang tepat dan memudahkan perusahaan dalam merekrut karyawan. Dengan sistem yang mudah digunakan, CareerBridge membuat proses mencari kerja dan perekrutan menjadi lebih cepat dan efisien.
           </p>
         </div>
@@ -107,9 +107,9 @@
         <div class="col-md-2">
           <h6 class="fw-bold">Tentang Kami</h6>
           <div class="d-flex flex-column">
-            <a href="pusatbantuan.html" class="text-muted text-decoration-none mb-1">Pusat Bantuan</a>
-            <a href="kebijakanprivasi.html" class="text-muted text-decoration-none mb-1">Kebijakan Privasi</a>
-            <a href="snk.html" class="text-muted text-decoration-none mb-1">Kondisi dan Ketentuan</a>
+            <a href="../pusatbantuan.html" class="text-white text-decoration-none mb-1">Pusat Bantuan</a>
+            <a href="../kebijakanprivasi.html" class="text-white text-decoration-none mb-1">Kebijakan Privasi</a>
+            <a href="../snk.html" class="text-white text-decoration-none mb-1">Kondisi dan Ketentuan</a>
           </div>
         </div>
   
@@ -117,9 +117,9 @@
         <div class="col-md-2">
           <h6 class="fw-bold">Pencari Kerja</h6>
           <div class="d-flex flex-column">
-            <a href="daftarpekerja.html" class="text-muted text-decoration-none mb-1">Registrasi Pencari Kerja</a>
-            <a href="cari-loker.html" class="text-muted text-decoration-none mb-1">Cari Lowongan Kerja</a>
-            <a href="artikel.html" class="text-muted text-decoration-none mb-1">Tips Loker</a>
+            <a href="../pelamar/daftarpekerja.php" class="text-white text-decoration-none mb-1">Registrasi Pencari Kerja</a>
+            <a href="../pelamar/cari-loker.php" class="text-white text-decoration-none mb-1">Cari Lowongan Kerja</a>
+            <a href="../artikel.html" class="text-white text-decoration-none mb-1">Tips Loker</a>
           </div>
         </div>
   
@@ -127,19 +127,20 @@
         <div class="col-md-3">
           <h6 class="fw-bold">Perusahaan</h6>
           <div class="d-flex flex-column">
-            <a href="masukperusahaan.html" class="text-muted text-decoration-none mb-1">Registrasi Perusahaan</a>
-            <a href="pasang-loker.html" class="text-muted text-decoration-none mb-1">Pasang Loker</a>
+            <a href="masukperusahaan.php" class="text-white text-decoration-none mb-1">Registrasi Perusahaan</a>
+            <a href="pasang-loker.php" class="text-white text-decoration-none mb-1">Pasang Loker</a>
           </div>
         </div>
       </div>
   
       <!-- Copyright -->
-      <div class="text-center mt-4 text-muted small">
+      <div class="text-center mt-4 text-white small">
         <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
       </div>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./assets/bootstrap.bundle.min.js"></script>
 </body>
 </html>
