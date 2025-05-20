@@ -18,8 +18,25 @@ try {
         die("Data perusahaan tidak ditemukan.");
     }
 
+    $stmt_pelamar = $pdo->prepare("
+    SELECT COUNT(*) as total_pelamar
+    FROM pelamar p
+    INNER JOIN posting_job pj ON p.ID_job = pj.ID_job
+    WHERE pj.ID_perusahaan = ?
+    ");
+    
+    $stmt_pelamar->execute([$id_perusahaan]);
+    $data_pelamar = $stmt_pelamar->fetch();
+    $total_pelamar = $data_pelamar['total_pelamar'];
+
     $nama_perusahaan = $data['nama_perusahaan'];
     $email_perusahaan = $data['email'];
+
+    $stmt_lowongan = $pdo->prepare("SELECT COUNT(*) as total_lowongan FROM posting_job WHERE ID_perusahaan = ?");
+    $stmt_lowongan->execute([$id_perusahaan]);
+    $data_lowongan = $stmt_lowongan->fetch();
+    $total_lowongan = $data_lowongan['total_lowongan'];
+
 } catch (PDOException $e) {
     die("Query gagal: " . $e->getMessage());
 }
@@ -50,30 +67,26 @@ try {
 
     <div class="container my-5">
         <div class="row">
-            <!-- Sidebar Menu -->
             <div class="col-md-3 mb-3">
                 <div class="list-group">
                     <p class="list-group-item list-group-item-action active">Beranda</p>
                     <a href="editprofil-perusahaan.php" class="list-group-item list-group-item-action">Profil Perusahaan</a>
                     <a href="daftarlowongan.php" class="list-group-item list-group-item-action">Daftar Lowongan</a>
                     <a href="#" class="list-group-item list-group-item-action">Riwayat Pelamar</a>
-                    <a href="#" class="list-group-item list-group-item-action">Lowongan Disimpan</a>
                 </div>
             </div>
 
-            <!-- Main Content -->
             <div class="col-md-9">
                 <div class="alert alert-success" role="alert">
                     Selamat datang, <strong><?php echo htmlspecialchars($nama_perusahaan); ?></strong>! Ini adalah dashboard Anda.
                 </div>
 
-                <!-- Ringkasan -->
                 <div class="row my-4">
                     <div class="col-md-4">
                         <div class="card text-dark mb-3" style="background-color: #95B1EE;">
                             <div class="card-body">
                                 <h5 class="card-title">Total Lowongan</h5>
-                                <p class="card-text fs-4">1</p>
+                                <p class="card-text fs-4"><?php echo $total_lowongan; ?></p>
                             </div>
                         </div>
                     </div>
@@ -81,7 +94,7 @@ try {
                         <div class="card text-dark mb-3" style="background-color: #E7F1A8;">
                             <div class="card-body">
                                 <h5 class="card-title">Total Pelamar</h5>
-                                <p class="card-text fs-4">72</p>
+                                <p class="card-text fs-4"><?php echo $total_pelamar; ?></p>
                             </div>
                         </div>
                     </div>

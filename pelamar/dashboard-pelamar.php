@@ -1,3 +1,26 @@
+<?php
+session_start();
+include '../koneksi.php';
+
+if (!isset($_SESSION['ID_user']) || $_SESSION['role'] !== 'pelamar') {
+    header("Location: masukpekerja.php");
+    exit;
+}
+
+$id_user = $_SESSION['ID_user'];
+
+$stmt = $pdo->prepare("SELECT nama_lengkap FROM detail_user WHERE ID_user = ?");
+$stmt->execute([$id_user]);
+$user = $stmt->fetch();
+
+if (!$user) {
+    echo '<div class="alert alert-warning">Profil belum lengkap. <a href="editprofil-pelamar.php">Isi profil sekarang</a>.</div>';
+    $nama_lengkap = "Pengguna";
+} else {
+    $nama_lengkap = $user['nama_lengkap'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -35,8 +58,9 @@
 
       <div class="col-md-9">
         <div class="alert alert-success" role="alert">
-          Selamat datang, <strong>Nama Pelamar</strong>! Ini adalah dashboard Anda.
+          Selamat datang, <strong><?= htmlspecialchars($nama_lengkap) ?></strong>! Ini adalah dashboard Anda.
         </div>
+
 
         <h5>Riwayat Lamaran Terbaru</h5>
         <table class="table table-bordered">

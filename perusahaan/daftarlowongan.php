@@ -1,3 +1,23 @@
+<?php
+session_start();
+include '../koneksi.php';
+
+if (!isset($_SESSION['ID_perusahaan'])) {
+    echo "Silakan login terlebih dahulu.";
+    exit;
+}
+
+$id_perusahaan = $_SESSION['ID_perusahaan'];
+
+try {
+    $stmt_lowongan = $pdo->prepare("SELECT * FROM posting_job WHERE ID_perusahaan = ? ORDER BY tanggal_posting DESC");
+    $stmt_lowongan->execute([$id_perusahaan]);
+    $lowongan_list = $stmt_lowongan->fetchAll();
+} catch (PDOException $e) {
+    die("Query gagal: " . $e->getMessage());
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -38,17 +58,25 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($lowongan_list as $lowongan): ?>
                         <tr>
-                            <td>UI/UX Designer</td>
-                            <td>Surabaya</td>
-                            <td>01 April 2025</td>
-                            <td>25</td>
+                            <td><?php echo htmlspecialchars($lowongan['posisi']); ?></td>
+                            <td><?php echo htmlspecialchars($lowongan['lokasi']); ?></td>
+                            <td><?php echo date('d F Y', strtotime($lowongan['tanggal_posting'])); ?></td>
                             <td>
-                                <a href="lihat-pelamar.html" class="btn btn-sm btn-info">Lihat Lowongan</a>
-                                <a href="edit-lowongan.php" class="btn btn-sm btn-warning">Edit Lowongan</a>
+                                <?php
+                                    $stmt_pelamar = $pdo->prepare("SELECT COUNT(*) FROM pelamar WHERE ID_job = ?");
+                                    $stmt_pelamar->execute([$lowongan['ID_job']]);
+                                    $jumlah_pelamar = $stmt_pelamar->fetchColumn();
+                                    echo $jumlah_pelamar;
+                                ?>
+                            </td>
+                            <td>
+                                <a href="lihat-pelamar.php?ID_job=<?php echo $lowongan['ID_job']; ?>" class="btn btn-sm btn-info">Lihat Lowongan</a>
+                                <a href="edit-lowongan.php?ID_job=<?php echo $lowongan['ID_job']; ?>" class="btn btn-sm btn-warning">Edit Lowongan</a>
                             </td>
                         </tr>
-                        <!-- Kamu bisa tambahkan baris lain di sini -->
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

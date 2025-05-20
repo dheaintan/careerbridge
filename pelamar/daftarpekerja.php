@@ -75,37 +75,37 @@
     </div>
 
     <div class="container mt-5 mb-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <h4 class="text-center fw-bold mb-4">Daftar sebagai Pencari Kerja</h4>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <h4 class="text-center fw-bold mb-4">Daftar sebagai Pencari Kerja</h4>
 
-                <form action="daftarpekerja_proses.php" method="POST">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Alamat Email <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" id="email" name="email" required style="border: 1px solid black;" placeholder="Masukkan email">
-                    </div>
-                
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Kata Sandi <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" id="password" name="password" required style="border: 1px solid black;" placeholder="Masukkan kata sandi">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="passwordVerify" class="form-label">Konfirmasi Kata Sandi <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" id="passwordVerify" name="passwordVerify" required style="border: 1px solid black;" placeholder="Ulangi kata sandi">
-                    </div>
-
-                    <div class="form-check mb-3">
-                        <input type="checkbox" onclick="togglePasswordVisibility()">
-                        <label class="form-check-label" for="showPassword">Tampilkan Kata Sandi</label>
-                    </div>
-
-                    <div class="text-center">
-                        <button type="submit" class="btn text-dark" style="background-color: #E7F1A8;">Daftar</button>
-                    </div>
-                </form>
+          <form action="daftarpekerja_proses.php" method="POST" novalidate>
+            <div class="mb-3">
+                <label for="email" class="form-label">Alamat Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email" name="email" required autocomplete="email" placeholder="Masukkan email" style="border: 1px solid black;" aria-describedby="emailHelp">
             </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Kata Sandi <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password" placeholder="Masukkan kata sandi" style="border: 1px solid black;">
+            </div>
+
+            <div class="mb-3">
+                <label for="passwordVerify" class="form-label">Konfirmasi Kata Sandi <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="passwordVerify" name="passwordVerify" required autocomplete="new-password" placeholder="Ulangi kata sandi" style="border: 1px solid black;">
+            </div>
+
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="showPassword" onclick="togglePasswordVisibility()">
+                <label class="form-check-label" for="showPassword">Tampilkan Kata Sandi</label>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn text-dark" style="background-color: #E7F1A8;">Daftar</button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
 
     <footer class="text-white py-5" style="background-color: #364c84;">
@@ -160,15 +160,15 @@
 
     <script>
       function togglePasswordVisibility() {
-        var passwordInput = document.getElementById("password");
-        var passwordVerifyInput = document.getElementById("passwordVerify");
-        if (passwordInput.type === "password") {
-          passwordInput.type = "text";
-          passwordVerifyInput.type = "text";
-        } else {
-          passwordInput.type = "password";
-          passwordVerifyInput.type = "password";
-        }
+      var passwordInput = document.getElementById("password");
+      var passwordVerifyInput = document.getElementById("passwordVerify");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        passwordVerifyInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+        passwordVerifyInput.type = "password";
+      }
       }
     </script>
     

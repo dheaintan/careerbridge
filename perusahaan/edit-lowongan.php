@@ -1,3 +1,35 @@
+<?php
+session_start();
+include '../koneksi.php';
+
+if (!isset($_SESSION['ID_perusahaan'])) {
+    echo "Silakan login terlebih dahulu.";
+    exit;
+}
+
+$id_perusahaan = $_SESSION['ID_perusahaan'];
+
+if (!isset($_GET['ID_job'])) {
+    echo "ID lowongan tidak ditemukan.";
+    exit;
+}
+
+$id_job = $_GET['ID_job'];
+
+try {
+    $stmt = $pdo->prepare("SELECT * FROM posting_job WHERE ID_job = ? AND ID_perusahaan = ?");
+    $stmt->execute([$id_job, $id_perusahaan]);
+    $lowongan = $stmt->fetch();
+
+    if (!$lowongan) {
+        echo "Lowongan tidak ditemukan.";
+        exit;
+    }
+} catch (PDOException $e) {
+    die("Query gagal: " . $e->getMessage());
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,75 +40,112 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="../assets/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <a class="navbar-brand text-decoration-none">
-                <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
+                <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top" />
             </a>
-
             <div class="container my-4">
                 <h3>Edit Lowongan</h3>
             </div>
         </div>
     </nav>
 
-    <div class="container card shadow rounded pt-3 px-3">
-        <h4 class="mb-4">Frontend Developer</h4>
-        <form>
-            <div class="mb-3">
-                <label for="judulLowongan" class="form-label">Judul Lowongan</label>
-                <input type="text" class="form-control" id="judulLowongan" style="border: 1px solid black;" value="Frontend Developer">
-            </div>
+    <div class="container my-4">
+        <div class="card shadow rounded p-4">
+            <form action="edit-lowongan_proses.php" method="POST">
+                <input type="hidden" name="id_job" value="<?= htmlspecialchars($lowongan['ID_job']); ?>">
 
-            <div class="mb-3">
-                <label for="deskripsiPekerjaan" class="form-label">Deskripsi Pekerjaan</label>
-                <textarea class="form-control" id="deskripsiPekerjaan" rows="5" style="border: 1px solid black;">Bertanggung jawab membangun dan memelihara tampilan antarmuka aplikasi web.</textarea>
-            </div>
+                <div class="mb-3">
+                    <label for="posisi" class="form-label">Posisi</label>
+                    <input type="text" class="form-control" id="posisi" name="posisi"
+                        value="<?= htmlspecialchars($lowongan['posisi']); ?>" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="lokasiKerja" class="form-label">Lokasi Kerja</label>
-                <input type="text" class="form-control" id="lokasiKerja" style="border: 1px solid black;" value="Surabaya, Jawa Timur">
-            </div>
+                <div class="mb-3">
+                    <label for="lokasi" class="form-label">Lokasi Kerja</label>
+                    <input type="text" class="form-control" id="lokasi" name="lokasi"
+                        value="<?= htmlspecialchars($lowongan['lokasi']); ?>" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="tipePekerjaan" class="form-label">Tipe Pekerjaan</label>
-                <select class="form-select" style="border: 1px solid black;" id="tipePekerjaan">
-                    <option value="Full-time" selected>Full-time</option>
-                    <option value="Part-time">Part-time</option>
-                    <option value="Internship">Magang</option>
-                    <option value="Freelance">Freelance</option>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label for="tipe_pekerjaan" class="form-label">Tipe Pekerjaan</label>
+                    <select class="form-select" id="tipe_pekerjaan" name="tipe_pekerjaan" required>
+                        <option disabled value="">Pilih tipe pekerjaan</option>
+                        <option value="Fulltime" <?= $lowongan['tipe_pekerjaan'] == 'Fulltime' ? 'selected' : ''; ?>>Full Time</option>
+                        <option value="Parttime" <?= $lowongan['tipe_pekerjaan'] == 'Parttime' ? 'selected' : ''; ?>>Part Time</option>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Rentang Gaji (Rp)</label>
-                <div class="row">
-                    <div class="col">
-                        <input type="number" class="form-control" name="gaji_min" placeholder="Minimal (Contoh penulisan: 3000000)" style="border: 1px solid black;">
-                    </div>
-                    <div class="col">
-                        <input type="number" class="form-control" name="gaji_max" placeholder="Maksimal (Contoh penulisan: 3000000)" style="border: 1px solid black;">
+                <div class="mb-3">
+                    <label for="jenjang_pendidikan" class="form-label">Pendidikan Terakhir</label>
+                    <select class="form-select" id="jenjang_pendidikan" name="jenjang_pendidikan" required>
+                        <option disabled value="">Pilih pendidikan terakhir</option>
+                        <?php
+                        $jenjang = ['SMA/SMK', 'D3', 'S1', 'S2', 'S3'];
+                        foreach ($jenjang as $j) {
+                            $selected = $lowongan['jenjang_pendidikan'] == $j ? 'selected' : '';
+                            echo "<option value='$j' $selected>$j</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="level_pekerjaan" class="form-label">Level Pekerjaan</label>
+                    <select class="form-select" id="level_pekerjaan" name="level_pekerjaan" required>
+                        <option disabled value="">Pilih level</option>
+                        <?php
+                        $level = ['Entry Level', 'Junior', 'Mid', 'Senior', 'Manager'];
+                        foreach ($level as $l) {
+                            $selected = $lowongan['level_pekerjaan'] == $l ? 'selected' : '';
+                            echo "<option value='$l' $selected>$l</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Rentang Gaji (Rp)</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="number" class="form-control" name="gaji_min"
+                                value="<?= htmlspecialchars($lowongan['gaji_min']); ?>" placeholder="Minimal" required>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="gaji_max"
+                                value="<?= htmlspecialchars($lowongan['gaji_max']); ?>" placeholder="Maksimal" required>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="mb-3">
-                <label for="kualifikasi" class="form-label">Kualifikasi</label>
-                <textarea class="form-control" id="kualifikasi" rows="4" style="border: 1px solid black;">Minimal 1 tahun pengalaman di bidang frontend. Menguasai HTML, CSS, dan JavaScript.</textarea>
-            </div>
+                <div class="mb-3">
+                    <label for="deskripsi_loker" class="form-label">Deskripsi Pekerjaan</label>
+                    <textarea class="form-control" id="deskripsi_loker" name="deskripsi_loker" rows="4" required><?= htmlspecialchars($lowongan['deskripsi_loker']); ?></textarea>
+                </div>
 
-            <div class="d-flex justify-content-between mb-3">
-                <a href="dashboard-perusahaan.php" class="btn btn-secondary">Batal</a>
-                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label for="tanggal_posting" class="form-label">Tanggal Posting</label>
+                    <input type="date" class="form-control" id="tanggal_posting" name="tanggal_posting"
+                        value="<?= htmlspecialchars(date('Y-m-d', strtotime($lowongan['tanggal_posting']))); ?>" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+            </form>
+            <?php if (isset($success) && $success): ?>
+                <script>
+                    alert("Lowongan berhasil diperbarui!");
+                </script>
+            <?php endif; ?>
+        </div>
     </div>
 
-    <div class="text-center mt-4 text-white small">
+    <div class="text-center mb-3 text-dark small">
         <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

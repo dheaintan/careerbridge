@@ -53,7 +53,6 @@
     </div>
   </nav>
 
-  <!-- Header -->
   <div class="text-white py-4 text-center" style="background-color: #364C84;">
     <h1 class="fw-bold fst-italic">Pasang Iklan Lowongan Kerja</h1>
     <p style="font-family: 'Inter';">Temukan Kandidat Terbaik, Rekrut dengan Mudah!</p>
@@ -65,13 +64,11 @@
 
   <div class="container py-5">
     <div class="row align-items-center">
-      <!-- Kolom Kiri: Gambar -->
       <div class="col-md-6 text-center">
         <img src="https://blush.design/api/download?shareUri=vK7buK3J0r3Kgf6N&c=Hair_0%7Ed5d5d5-0.7%7E372310-0.8%7Ed5d5d5_Skin_0%7Ec3986a-0.7%7E673a18-0.8%7Ec3986a&w=800&h=800&fm=png" 
               class="img-fluid">
       </div>
       
-      <!-- Kolom Kanan: Teks -->
       <div class="col-md-6 ps-md-4 mt-4 mt-md-0">
         <h5><strong>Ucapkan Selamat Tinggal pada Perekrutan Ribet! <span>🚀</span></strong></h5>
         <p>Lelah dengan email penuh lamaran kerja yang bikin server ngelag?  

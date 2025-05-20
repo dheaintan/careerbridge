@@ -1,35 +1,43 @@
 <?php
+session_start();
 include '../koneksi.php';
 
-$email = $_POST['email'];
-$password = $_POST['password'];
-$passwordVerify = $_POST['passwordVerify'];
+$email = trim($_POST['email'] ?? '');
+$password = $_POST['password'] ?? '';
+$passwordVerify = $_POST['passwordVerify'] ?? '';
 
-// Validasi jika password tidak cocok
-if ($password !== $passwordVerify) {
-    echo "Password tidak cocok!";
-    exit;
+if (!$email || !$password || !$passwordVerify) {
+    die("Semua field harus diisi.");
 }
 
-// Enkripsi password
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    die("Format email tidak valid.");
+}
+
+if ($password !== $passwordVerify) {
+    die("Password tidak cocok!");
+}
+
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-// Cek apakah email sudah terdaftar
-$cek = mysqli_query($conn, "SELECT * FROM login_signup WHERE email='$email'");
-if (mysqli_num_rows($cek) > 0) {
-    echo "Email sudah terdaftar!";
-    exit;
-}
+try {
+    // Cek email sudah terdaftar?
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM login_signup WHERE email = ?");
+    $stmt->execute([$email]);
+    $count = $stmt->fetchColumn();
 
-// Simpan data ke DB
-$query = "INSERT INTO login_signup (email, password) VALUES ('$email', '$hashedPassword')";
-if (mysqli_query($conn, $query)) {
-    // Notifikasi berhasil daftar dan redirect ke halaman login
-    echo '<script type="text/javascript">
+    if ($count > 0) {
+        die("Email sudah terdaftar!");
+    }
+
+    // Insert user baru dengan role pelamar
+    $insert = $pdo->prepare("INSERT INTO login_signup (email, password, role) VALUES (?, ?, 'pelamar')");
+    $insert->execute([$email, $hashedPassword]);
+
+    echo '<script>
             alert("Registrasi berhasil. Silakan login.");
-            window.location.href = "masukpekerja.php"; // redirect ke halaman login
+            window.location.href = "masukpekerja.php";
           </script>';
-} else {
-    echo "Terjadi kesalahan: " . mysqli_error($conn);
+} catch (PDOException $e) {
+    die("Error database: " . $e->getMessage());
 }
-?>
