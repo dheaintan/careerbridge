@@ -44,11 +44,9 @@
     <div style="width: 100%; height: 2px; background-color: black;"></div>
 
     <div class="position-relative" style="height: 250px;">
-        <!-- Gambar latar belakang -->
         <div style="background-image: url('../header.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.4; z-index: 1;">
         </div>
-      
-        <!-- Teks di atas gambar -->
+
         <div class="container text-dark position-relative" style="z-index: 2; padding-top: 80px;">
           <h3 class="fw-bold">Masuk</h3>
           <p>Beranda > Masuk > Buat Akun Baru Perusahaan</p>

@@ -1,16 +1,36 @@
+<?php
+require '../koneksi.php';
+
+if (!isset($_GET['id'])) {
+  echo "ID tidak ditemukan!";
+  exit;
+}
+
+$id = $_GET['id'];
+
+$stmt = $pdo->prepare("SELECT * FROM posting_job WHERE ID_job = ?");
+$stmt->execute([$id]);
+$loker = $stmt->fetch();
+
+if (!$loker) {
+  echo "Data lowongan tidak ditemukan.";
+  exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lowongan Kerja</title>
-    <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="../assets/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lowongan Kerja</title>
+  <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -58,43 +78,77 @@
 
     <div class="container my-5">
       <div class="row">
-        <!-- Konten Kiri Header Job -->
         <div class="col-lg-8">
           <div class="border rounded-4 p-4 bg-white mb-4 shadow-sm">
             <div class="d-flex justify-content-between align-items-start flex-wrap">
               <div>
-                <h4 class="fw-bold">Admin Produksi</h4>
-                <div class="fw-semibold" style="color: #364c84;">PT. PANCA BUANA ABADI</div>
-                <small class="text-muted">sekitar 9 menit yang lalu</small>
+                <h4 class="fw-bold"><?= htmlspecialchars($loker['posisi'])?></h4>
+                <div class="fw-semibold" style="color: #364c84;"><?= htmlspecialchars($loker['nama_perusahaan']) ?></div>
               </div>
               <div class="d-flex gap-2 mt-2">
-                <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-bookmark"></i></button>
-                <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-share"></i></button>
+                <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded-4 p-3">
+                      <div class="modal-header border-0">
+                        <h5 class="modal-title fw-bold" id="loginModalLabel">Tertarik dengan loker ini?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                      </div>
+
+                      <div class="modal-body text-start bg-light">
+                        <p class="mb-4">Kamu harus login dulu agar bisa menyimpan atau melamar lowongan pekerjaan yang kamu idamkan</p>
+                        <div class="d-flex gap-3">
+                          <button type="button" class="btn btn-light flex-fill" data-bs-dismiss="modal" style="background-color: #CAC5C5;">Kembali</button>
+                          <a href="../pelamar/masukpekerja.php" class="btn btn-primary flex-fill" style="background-color: #364C84;">Login</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-outline-secondary btn-sm" onclick="cekLogin()"><i class="bi bi-bookmark"></i></button>
+
+                <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded-4 p-3">
+                      <div class="modal-header border-0">
+                        <h5 class="modal-title fw-bold" id="loginModalLabel">Tertarik dengan loker ini?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                      </div>
+
+                      <div class="modal-body text-start bg-light">
+                        <p class="mb-4">Kamu harus login dulu agar bisa menyimpan atau melamar lowongan pekerjaan yang kamu idamkan</p>
+                        <div class="d-flex gap-3">
+                          <button type="button" class="btn btn-light flex-fill" data-bs-dismiss="modal" style="background-color: #CAC5C5;">Kembali</button>
+                          <a href="../pelamar/masukpekerja.php" class="btn btn-primary flex-fill" style="background-color: #364C84;">Login</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <button type="button" class="btn text-white" style="background-color: #364C84;" onclick="cekLogin()">Lamar Sekarang</button>
+
                 <script>
+                  const isLoggedIn = false;
+
                   function cekLogin() {
-                    const isLoggedIn = localStorage.getItem('login'); // misalnya 'true' atau 'false'
-                    if (isLoggedIn === 'true') {
-                      // Tampilkan modal jika login
-                      var modal = new bootstrap.Modal(document.getElementById('lamarModal'));
+                    if (!isLoggedIn) {
+                      const modal = new bootstrap.Modal(document.getElementById('loginModal'));
                       modal.show();
                     } else {
-                      // Redirect ke halaman login jika belum login
-                      window.location.href = "masuk.html";
+                      window.location.href = "/lamar-pekerjaan";
                     }
                   }
                 </script>
+
               </div>
             </div>
     
-            <!-- Detail -->
             <div class="row text-muted mt-4">
               <div class="col-md-4">
                 <div class="d-flex align-items-start">
                   <i class="bi bi-geo-alt" style="color: #364c84; margin-right: 8px;"></i>
                   <div>
                     <div class="fw-bold text-dark">Lokasi</div>
-                    <p style="color: #364c84;">Bandung Barat</p>
+                    <p style="color: #364c84;"><?= htmlspecialchars($loker['lokasi']) ?></p>
                   </div>
                 </div>
               </div>
@@ -104,7 +158,7 @@
                   <i class="bi bi-briefcase" style="color: #364c84; margin-right: 8px;"></i>
                   <div>
                     <div class="fw-bold text-dark">Tipe Pekerjaan</div>
-                    <p style="color: #364c84;">Kontrak</p>
+                    <p style="color: #364c84;"><?= htmlspecialchars($loker['tipe_pekerjaan']) ?></p>
                   </div>
                 </div>
               </div>
@@ -114,7 +168,7 @@
                   <i class="bi bi-bar-chart" style="color: #364c84; margin-right: 8px;"></i>
                   <div>
                     <div class="fw-bold text-dark">Level Pekerjaan</div>
-                    <p style="color: #364c84;">Junior / Entry Level</p>
+                    <p style="color: #364c84;"><?= htmlspecialchars($loker['level_pekerjaan']) ?></p>
                   </div>
                 </div>
               </div>
@@ -124,7 +178,7 @@
                   <i class="bi bi-tags" style="color: #364c84; margin-right: 8px;"></i>
                   <div>
                     <div class="fw-bold text-dark">Fungsi</div>
-                    <p style="color: #364c84; font-family: 'M PLUS Rounded 1c', sans-serif;">Admin Produksi</p>
+                    <p style="color: #364c84; font-family: 'M PLUS Rounded 1c', sans-serif;"><?= htmlspecialchars($loker['posisi'])?></p>
                   </div>
                 </div>
               </div>
@@ -134,7 +188,11 @@
                   <i class="bi bi-mortarboard" style="color: #364c84; margin-right: 8px;"></i>
                   <div>
                     <div class="fw-bold text-dark">Pendidikan</div>
-                    <p style="color: #364c84;">Diploma D1/D2/D3, Sarjana S1</p>
+                    <?php if (isset($loker) && isset($loker['jenjang_pendidikan'])): ?>
+                      <p style="color: #364c84;"><?= htmlspecialchars($loker['jenjang_pendidikan']); ?></p>
+                      <?php else: ?>
+                      <p style="color: #364c84;">Data tidak tersedia</p>
+                    <?php endif; ?>
                   </div>
                 </div>
               </div>
@@ -144,53 +202,27 @@
                   <i class="bi bi-cash-coin me-1" style="color: #364c84; margin-right: 8px;"></i>
                   <div>
                     <div class="fw-bold text-dark">Gaji</div>
-                    <p style="color: #364c84;">Rp 3 - 4 Juta</p>
+                      <?php if (isset($loker) && isset($loker['gaji_min']) && isset($loker['gaji_max'])): ?>
+                        <p style="color: #364c84;">
+                          Rp<?= number_format($loker['gaji_min'], 0, ',', '.'); ?> - Rp<?= number_format($loker['gaji_max'], 0, ',', '.'); ?>
+                        </p>
+                        <?php else: ?>
+                          <p style="color: #364c84;">Gaji tidak tersedia</p>
+                      <?php endif; ?>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
           <br>
-          <p>PT. PANCA BUANA ABADI sedang membuka lowongan pekerjaan sebagai Admin Produksi</p>
+          <p><?= htmlspecialchars($loker['nama_perusahaan']) ?> sedang membuka lowongan pekerjaan sebagai <?= htmlspecialchars($loker['posisi'])?></p>
           <br>
-    
-          <!-- Deskripsi -->
+
           <h4 class="fw-bold">Tanggung Jawab Pekerjaan :</h4>
-          <ul>
-            <li>Memperbanyak dan mengeluarkan form yang berkaitan dengan produksi.</li>
-            <li>Mengarsipkan laporan produksi manual.</li>
-            <li>Membuat laporan kesalahan/ketidaksesuaian laporan.</li>
-            <li>Menyerahkan laporan ke Departemen Accounting.</li>
-            <li>Memberikan laporan ke HRD untuk pengupahan borongan.</li>
-            <li>Melakukan stock opname.</li>
-            <li>Membuat surat jalan pengiriman barang jadi.</li>
-          </ul>
-
-          <br>
-          <h4 class="fw-bold">Keahlian :</h4>
-          <ul>
-            <li>Mampu mengoperasikan komputer.</li>
-            <li>Menguasai Excel dan aplikasi produksi.</li>
-          </ul>
-
-          <br>
-          <h4 class="fw-bold">Kualifikasi :</h4>
-          <ul>
-            <li>D3/S1 Administrasi / Manajemen.</li>
-            <li>Pengalaman minimal 1 tahun di bidang administrasi terutama administrasi pabrik.</li>
-          </ul>
-
-          <br>
-          <h4 class="fw-bold">Waktu Bekerja :</h4>
-          <p>Jam 08.00 - 17.00 Senin - Jumat, 08.00 - 13.00 Sabtu</p>
-
-          <br>
-          <h4 class="fw-bold">Tunjangan :</h4>
-          <p>Uang makan, uang transportasi, BPJS</p>
+          <ul><?= htmlspecialchars($loker['deskripsi_loker'])?></ul>
         </div>
-    
-        <!-- Profil Perusahaan -->
+
         <div class="col-lg-4">
           <div class="card mb-4 shadow-sm">
             <div class="card-body text-center">
@@ -202,13 +234,11 @@
               <p class="small">PT. PANCA BUANA ABADI adalah perusahaan yang bergerak di bidang pembuatan kemasan plastik.</p>
             </div>
           </div>
-    
-          <!-- Loker Serupa -->
+
           <div class="card shadow-sm">
             <div class="card-body">
               <h6 class="fw-bold mb-3">Loker Serupa</h6>
-    
-              <!-- Item -->
+
               <a href="detail-pekerjaan.php" class="text-decoration-none text-dark">
                 <div class="d-flex mb-3">
                   <div class="rounded-circle bg-secondary me-3" style="width: 75px; height: 75px;"></div>

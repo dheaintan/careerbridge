@@ -2,32 +2,26 @@
 session_start();
 include '../koneksi.php';
 
-if (!isset($_SESSION['ID_perusahaan'])) {
-    echo "Silakan login terlebih dahulu.";
-    exit;
-}
-
-$success = false;
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_job = $_POST['id_job'];
+    $id_perusahaan = $_SESSION['ID_perusahaan'];
     $posisi = $_POST['posisi'];
     $lokasi = $_POST['lokasi'];
     $tipe_pekerjaan = $_POST['tipe_pekerjaan'];
-    $jenjang_pendidikan = $_POST['jenjang_pendidikan'];
-    $level_pekerjaan = $_POST['level_pekerjaan'];
+    $jenjang = $_POST['jenjang_pendidikan'];
+    $level = $_POST['level_pekerjaan'];
     $gaji_min = $_POST['gaji_min'];
     $gaji_max = $_POST['gaji_max'];
-    $deskripsi_loker = $_POST['deskripsi_loker'];
-    $tanggal_posting = $_POST['tanggal_posting'];
+    $deskripsi = $_POST['deskripsi_loker'];
+    $tanggal = $_POST['tanggal_posting'];
 
     try {
-        $stmt = $pdo->prepare("UPDATE posting_job SET posisi = ?, lokasi = ?, tipe_pekerjaan = ?, jenjang_pendidikan = ?, level_pekerjaan = ?, gaji_min = ?, gaji_max = ?, deskripsi_loker = ?, tanggal_posting = ? WHERE ID_job = ? AND ID_Perusahaan = ?");
-        $stmt->execute([$posisi, $lokasi, $tipe_pekerjaan, $jenjang_pendidikan, $level_pekerjaan, $gaji_min, $gaji_max, $deskripsi_loker, $tanggal_posting, $id_job, $_SESSION['ID_perusahaan']]);
-        
-        $success = true;
+        $stmt = $pdo->prepare("UPDATE posting_job SET posisi = ?, lokasi = ?, tipe_pekerjaan = ?, jenjang_pendidikan = ?, level_pekerjaan = ?, gaji_min = ?, gaji_max = ?, deskripsi_loker = ?, tanggal_posting = ? WHERE ID_job = ? AND ID_perusahaan = ?");
+        $stmt->execute([$posisi, $lokasi, $tipe_pekerjaan, $jenjang, $level, $gaji_min, $gaji_max, $deskripsi, $tanggal, $id_job, $id_perusahaan]);
+
+        header("Location: edit-lowongan.php?ID_job=$id_job&success=1");
+        exit;
     } catch (PDOException $e) {
-        die("Query gagal: " . $e->getMessage());
+        die("Gagal memperbarui: " . $e->getMessage());
     }
 }
-?>

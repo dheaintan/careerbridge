@@ -38,8 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindValue(':id', $id_perusahaan, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            header("Location: dashboard-perusahaan.php?status=sukses");
-            exit;
+        $updateJob = $pdo->prepare("UPDATE posting_job SET nama_perusahaan = :nama WHERE ID_perusahaan = :id");
+        $updateJob->bindValue(':nama', $nama);
+        $updateJob->bindValue(':id', $id_perusahaan, PDO::PARAM_INT);
+        $updateJob->execute();
+
+        header("Location: dashboard-perusahaan.php?status=sukses");
+        exit;
         } else {
             echo "Gagal update profil perusahaan.";
         }

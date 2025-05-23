@@ -13,7 +13,6 @@ if (!isset($_POST['email']) || !isset($_POST['password'])) {
 $email = trim($_POST['email']);
 $password = $_POST['password'];
 
-// Validasi email
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo '<script>
             alert("Email tidak valid! Silakan coba lagi");
@@ -40,7 +39,7 @@ try {
                 if ($perusahaan) {
                     $_SESSION['ID_perusahaan'] = $perusahaan['ID_Perusahaan'];
 
-                    header("Location: landingpage-perusahaan.html");
+                    header("Location: landingpage-perusahaan.php");
                     exit();
                 } else {
                     echo '<script>

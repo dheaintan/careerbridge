@@ -74,8 +74,8 @@ try {
                     <label for="tipe_pekerjaan" class="form-label">Tipe Pekerjaan</label>
                     <select class="form-select" id="tipe_pekerjaan" name="tipe_pekerjaan" required>
                         <option disabled value="">Pilih tipe pekerjaan</option>
-                        <option value="Fulltime" <?= $lowongan['tipe_pekerjaan'] == 'Fulltime' ? 'selected' : ''; ?>>Full Time</option>
-                        <option value="Parttime" <?= $lowongan['tipe_pekerjaan'] == 'Parttime' ? 'selected' : ''; ?>>Part Time</option>
+                        <option value="Full Time" <?= $lowongan['tipe_pekerjaan'] == 'Full Time' ? 'selected' : ''; ?>>Full Time</option>
+                        <option value="Part Time" <?= $lowongan['tipe_pekerjaan'] == 'Part Time' ? 'selected' : ''; ?>>Part Time</option>
                     </select>
                 </div>
 
@@ -147,5 +147,13 @@ try {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+        <script>
+            alert("Lowongan berhasil diperbarui!");
+            window.location.href = "dashboard-perusahaan.php";
+        </script>
+    <?php endif; ?>
+
 </body>
 </html>

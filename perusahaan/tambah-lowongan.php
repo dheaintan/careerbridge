@@ -1,10 +1,5 @@
 <?php
-if (isset($_GET['status']) && $_GET['status'] == 'berhasil') {
-    echo "<script>
-        // Tampilkan pop-up jika status berhasil
-        alert('Lowongan pekerjaan berhasil disimpan!');
-    </script>";
-}
+$show_success = isset($_GET['status']) && $_GET['status'] === 'berhasil';
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +25,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'berhasil') {
             </div>
         </div>
     </nav>
+
     <div class="container py-1 mb-5">
         <div class="card shadow rounded">
             <div class="card-body">
@@ -96,7 +92,6 @@ if (isset($_GET['status']) && $_GET['status'] == 'berhasil') {
 
                     <button type="submit" class="btn text-dark" style="background-color: #E7F1A8;">Simpan Lowongan</button>
                 </form>
-
             </div>
         </div>
     </div>
@@ -105,7 +100,31 @@ if (isset($_GET['status']) && $_GET['status'] == 'berhasil') {
         <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
     </div>
 
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Lowongan berhasil ditambahkan! Mengalihkan ke dashboard...
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <?php if ($show_success): ?>
+    <script>
+        window.onload = function () {
+            const toastEl = document.getElementById('successToast');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+
+            setTimeout(() => {
+                window.location.href = 'dashboard-perusahaan.php';
+            }, 3000);
+        };
+    </script>
+    <?php endif; ?>
 </body>
 </html>

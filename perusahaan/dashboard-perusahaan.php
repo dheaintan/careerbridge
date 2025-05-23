@@ -19,12 +19,11 @@ try {
     }
 
     $stmt_pelamar = $pdo->prepare("
-    SELECT COUNT(*) as total_pelamar
-    FROM pelamar p
-    INNER JOIN posting_job pj ON p.ID_job = pj.ID_job
-    WHERE pj.ID_perusahaan = ?
+        SELECT COUNT(*) as total_pelamar
+        FROM pelamar p
+        INNER JOIN posting_job pj ON p.ID_job = pj.ID_job
+        WHERE pj.ID_perusahaan = ?
     ");
-    
     $stmt_pelamar->execute([$id_perusahaan]);
     $data_pelamar = $stmt_pelamar->fetch();
     $total_pelamar = $data_pelamar['total_pelamar'];
@@ -48,6 +47,7 @@ try {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dashboard Perusahaan</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link href="../assets/bootstrap.min.css" rel="stylesheet" />
@@ -117,6 +117,19 @@ try {
     <div class="text-center mt-4 text-white small">
         <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
     </div>
+
+    <?php if (isset($_GET['status']) && $_GET['status'] === 'berhasil'): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Lowongan berhasil ditambahkan.',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    <?php endif; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

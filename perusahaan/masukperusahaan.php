@@ -44,7 +44,6 @@
     <div style="width: 100%; height: 2px; background-color: black;"></div>
 
     <div class="position-relative" style="height: 250px; font-family: 'Inter', sans-serif;">
-        <!-- Gambar latar belakang -->
         <div style="background-image: url('../header.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.4; z-index: 1;">
         </div>
 
@@ -56,7 +55,6 @@
 
     <div class="container my-5">
       <div class="row">
-        <!-- Form Login -->
         <div class="col-md-6">
           <h4 class="fw-bold">Masuk sebagai Perusahaan</h4>
           <hr>
@@ -77,8 +75,7 @@
             <button type="submit" class="btn text-dark" style="background-color: #E7F1A8;">Masuk</button>
           </form>
         </div>
-    
-        <!-- Pengguna Baru -->
+
         <div class="col-md-6">
           <h4 class="fw-bold">Perusahaan Baru</h4>
           <hr>
