@@ -16,6 +16,15 @@ if (!$loker) {
   echo "Data lowongan tidak ditemukan.";
   exit;
 }
+
+$data = null;
+$id_perusahaan = $loker['ID_Perusahaan'] ?? null;
+
+if ($id_perusahaan) {
+    $stmt2 = $pdo->prepare("SELECT deskripsi_perusahaan FROM perusahaan WHERE ID_Perusahaan = ?");
+    $stmt2->execute([$id_perusahaan]);
+    $data = $stmt2->fetch();
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,45 +43,45 @@ if (!$loker) {
 </head>
 
 <body class="bg-light">
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand text-decoration-none">
-            <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
-          </a>
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand text-decoration-none">
+        <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
+      </a>
+    
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"  data-bs-target="#navbarTogglerDemo02"aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
+          </li>
+        </ul>
         
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"  data-bs-target="#navbarTogglerDemo02"aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
-              </li>
+        <form class="d-flex align-items-center mx-1">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #e7f1a8; color: black; font-size: 0.90rem">
+              Masuk
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="../pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
+              <li><a class="dropdown-item" href="masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
             </ul>
-            
-            <form class="d-flex align-items-center mx-1">
-              <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #e7f1a8; color: black; font-size: 0.90rem">
-                  Masuk
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="../pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
-                  <li><a class="dropdown-item" href="masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
-                </ul>
-              </div>
-            </form>
           </div>
-        </div>
-    </nav>
+        </form>
+      </div>
+    </div>
+  </nav>
 
     <div style="width: 100%; height: 2px; background-color: black;"></div>
 
@@ -85,6 +94,7 @@ if (!$loker) {
                 <h4 class="fw-bold"><?= htmlspecialchars($loker['posisi'])?></h4>
                 <div class="fw-semibold" style="color: #364c84;"><?= htmlspecialchars($loker['nama_perusahaan']) ?></div>
               </div>
+              
               <div class="d-flex gap-2 mt-2">
                 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
@@ -94,7 +104,7 @@ if (!$loker) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                       </div>
 
-                      <div class="modal-body text-start bg-light">
+                      <div class="modal-body text-start">
                         <p class="mb-4">Kamu harus login dulu agar bisa menyimpan atau melamar lowongan pekerjaan yang kamu idamkan</p>
                         <div class="d-flex gap-3">
                           <button type="button" class="btn btn-light flex-fill" data-bs-dismiss="modal" style="background-color: #CAC5C5;">Kembali</button>
@@ -105,25 +115,6 @@ if (!$loker) {
                   </div>
                 </div>
                 <button class="btn btn-outline-secondary btn-sm" onclick="cekLogin()"><i class="bi bi-bookmark"></i></button>
-
-                <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content rounded-4 p-3">
-                      <div class="modal-header border-0">
-                        <h5 class="modal-title fw-bold" id="loginModalLabel">Tertarik dengan loker ini?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                      </div>
-
-                      <div class="modal-body text-start bg-light">
-                        <p class="mb-4">Kamu harus login dulu agar bisa menyimpan atau melamar lowongan pekerjaan yang kamu idamkan</p>
-                        <div class="d-flex gap-3">
-                          <button type="button" class="btn btn-light flex-fill" data-bs-dismiss="modal" style="background-color: #CAC5C5;">Kembali</button>
-                          <a href="../pelamar/masukpekerja.php" class="btn btn-primary flex-fill" style="background-color: #364C84;">Login</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <button type="button" class="btn text-white" style="background-color: #364C84;" onclick="cekLogin()">Lamar Sekarang</button>
 
                 <script>
@@ -134,7 +125,7 @@ if (!$loker) {
                       const modal = new bootstrap.Modal(document.getElementById('loginModal'));
                       modal.show();
                     } else {
-                      window.location.href = "/lamar-pekerjaan";
+                      window.location.href = "../pelamar/landingpage-pelamar.phps";
                     }
                   }
                 </script>
@@ -227,104 +218,72 @@ if (!$loker) {
           <div class="card mb-4 shadow-sm">
             <div class="card-body text-center">
               <div class="rounded-circle bg-secondary mx-auto mb-3" style="width: 60px; height: 60px;"></div>
-              <h6 class="fw-bold">PT. PANCA BUANA ABADI</h6>
-              <p class="text-muted small mb-1"><i class="bi bi-geo-alt"></i> Bandung Barat</p>
-              <p class="text-muted small mb-1"><i class="bi bi-building"></i> Manufaktur Umum</p>
-              <p class="text-muted small mb-2"><i class="bi bi-people"></i> 51 - 200 Karyawan</p>
-              <p class="small">PT. PANCA BUANA ABADI adalah perusahaan yang bergerak di bidang pembuatan kemasan plastik.</p>
+              <h6 class="fw-bold"><?= htmlspecialchars($loker['nama_perusahaan']) ?></h6>
+              <p class="text-muted small mb-1"><i class="bi bi-geo-alt"></i><?= htmlspecialchars($loker['lokasi']) ?></p>
+              <p class="small"><?= htmlspecialchars($loker['nama_perusahaan']) ?> adalah <?= htmlspecialchars($data['deskripsi_perusahaan'] ?? 'Deskripsi perusahaan tidak tersedia') ?>.</p>
             </div>
           </div>
 
           <div class="card shadow-sm">
             <div class="card-body">
               <h6 class="fw-bold mb-3">Loker Serupa</h6>
+              <?php
+                try {
+                  $query = "
+                    SELECT
+                      l.ID_job,
+                      p.nama_perusahaan,
+                      l.posisi,
+                      l.lokasi,
+                      l.tipe_pekerjaan,
+                      l.jenjang_pendidikan,
+                      l.level_pekerjaan,
+                      l.gaji_min,
+                      l.gaji_max
+                    FROM posting_job l
+                    JOIN perusahaan p ON l.ID_Perusahaan = p.ID_Perusahaan
+                    WHERE l.status_lowongan = 1
+                    ORDER BY l.ID_job DESC LIMIT 5
+                  ";
 
-              <a href="detail-pekerjaan.php" class="text-decoration-none text-dark">
+                  $stmt = $pdo->prepare($query);
+                  $stmt->execute();
+
+                  $lowongan = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                  foreach ($lowongan as $row) {
+              ?>
+              <a href="detail-pekerjaan.php?id=<?= $row['ID_job']; ?>" class="text-decoration-none text-dark">
                 <div class="d-flex mb-3">
                   <div class="rounded-circle bg-secondary me-3" style="width: 75px; height: 75px;"></div>
                   <div class="flex-grow-1">
-                    <div style="font-size: 0.9rem; color: #95B1EE;">NAMA PERUSAHAAN</div>
-                    <div class="fw-bold" style="font-size: 1rem; font-family: 'M PLUS Rounded 1c', sans-serif;">PEKERJAAN</div>                
+                    <div style="font-size: 0.9rem; color: #95B1EE;"><?= htmlspecialchars($row['nama_perusahaan']); ?></div>
+                    <div class="fw-bold" style="font-size: 1rem; font-family: 'M PLUS Rounded 1c', sans-serif;">
+                      <?= htmlspecialchars($row['posisi']); ?>
+                    </div>                
                     <div class="d-flex mt-2 text-muted" style="font-size: 0.9rem;">
                       <div class="me-3 d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-geo-alt"></i> LOKASI
+                        <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($row['lokasi']); ?>
                       </div>
                       <div class="d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-cash-coin me-1"></i> GAJI
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="d-flex mb-3">
-                  <div class="rounded-circle bg-secondary me-3" style="width: 75px; height: 75px;"></div>
-                  <div class="flex-grow-1">
-                    <div style="font-size: 0.9rem; color: #95B1EE;">NAMA PERUSAHAAN</div>
-                    <div class="fw-bold" style="font-size: 1rem; font-family: 'M PLUS Rounded 1c', sans-serif;">PEKERJAAN</div>               
-                    <div class="d-flex mt-2 text-muted" style="font-size: 0.9rem;">
-                      <div class="me-3 d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-geo-alt"></i> LOKASI
-                      </div>
-                      <div class="d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-cash-coin me-1"></i> GAJI
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="d-flex mb-3">
-                  <div class="rounded-circle bg-secondary me-3" style="width: 75px; height: 75px;"></div>
-                  <div class="flex-grow-1">
-                    <div style="font-size: 0.9rem; color: #95B1EE;">NAMA PERUSAHAAN</div>
-                    <div class="fw-bold" style="font-size: 1rem; font-family: 'M PLUS Rounded 1c', sans-serif;">PEKERJAAN</div>               
-                    <div class="d-flex mt-2 text-muted" style="font-size: 0.9rem;">
-                      <div class="me-3 d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-geo-alt"></i> LOKASI
-                      </div>
-                      <div class="d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-cash-coin me-1"></i> GAJI
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="d-flex mb-3">
-                  <div class="rounded-circle bg-secondary me-3" style="width: 75px; height: 75px;"></div>
-                  <div class="flex-grow-1">
-                    <div style="font-size: 0.9rem; color: #95B1EE;">NAMA PERUSAHAAN</div>
-                    <div class="fw-bold" style="font-size: 1rem; font-family: 'M PLUS Rounded 1c', sans-serif;">PEKERJAAN</div>
-                    <div class="d-flex mt-2 text-muted" style="font-size: 0.9rem;">
-                      <div class="me-3 d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-geo-alt"></i> LOKASI
-                      </div>
-                      <div class="d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-cash-coin me-1"></i> GAJI
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="d-flex mb-3">
-                  <div class="rounded-circle bg-secondary me-3" style="width: 75px; height: 75px;"></div>
-                  <div class="flex-grow-1">
-                    <div style="font-size: 0.9rem; color: #95B1EE;">NAMA PERUSAHAAN</div>
-                    <div class="fw-bold" style="font-size: 1rem; font-family: 'M PLUS Rounded 1c', sans-serif;">PEKERJAAN</div>
-                    <div class="d-flex mt-2 text-muted" style="font-size: 0.9rem;">
-                      <div class="me-3 d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-geo-alt"></i> LOKASI
-                      </div>
-                      <div class="d-flex align-items-center" style="color: #CAC5C5;">
-                        <i class="bi bi-cash-coin me-1"></i> GAJI
+                        <i class="bi bi-cash-coin me-1"></i> 
+                        <?= number_format($row['gaji_min'], 0, ',', '.'); ?> - <?= number_format($row['gaji_max'], 0, ',', '.'); ?>
                       </div>
                     </div>
                   </div>
                 </div>
               </a>
-    
+
+              <?php
+                  }
+                } catch (PDOException $e) {
+                  echo "Terjadi kesalahan: " . $e->getMessage();
+                }
+              ?>
+      </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
 

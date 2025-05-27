@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'koneksi.php';
+include '../koneksi.php';
 ?>
 
 <!doctype html>
@@ -9,12 +9,12 @@ include 'koneksi.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CareerBridge</title>
-    <link rel="icon" type="image/x-icon" href="logo%20careerbridge.png">
+    <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="./assets/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body class="bg-light">
@@ -22,7 +22,7 @@ include 'koneksi.php';
 
         <div class="container-fluid">
           <a class="navbar-brand text-decoration-none">
-            <img src="logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
+            <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
           </a>
         
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"  data-bs-target="#navbarTogglerDemo02"aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,36 +32,33 @@ include 'koneksi.php';
           <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="./pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
+                <a class="nav-link active" aria-current="page" href="cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
               </li>
               
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="./perusahaan/pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
+                <a class="nav-link active" aria-current="page" href="../perusahaan/daftarlowongan.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
               </li>
 
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
+                <a class="nav-link active" aria-current="page" href="../artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
               </li>
             </ul>
             
-            <form class="d-flex align-items-center mx-1">
-              <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #e7f1a8; color: black; font-size: 0.90rem">
-                  Masuk
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="./pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
-                  <li><a class="dropdown-item" href="./perusahaan/masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
-                </ul>
-              </div>
-            </form>
+            <div class="d-flex align-items-center mx-1">
+              <a href="dashboard-pelamar.php" class="btn" style="color: black; font-size: 0.90rem;">
+                <i class="bi bi-person-circle fs-3"></i>
+              </a>
+              <a href="logout-pelamar.php" class="btn btn-outline-danger ms-2" style="font-size: 0.9rem;" onclick="return confirm('Yakin ingin logout?');">
+                Logout
+              </a>
+            </div>
           </div>
         </div>
+        
     </nav>
 
     <div class="container-fluid">
       <div class="row d-flex align-items-center p-5" style="background-color: #364c84;">
-
         <div class="col-md-6" style="background-color: #364c84;">
           <div class="row">
             <div class="col text-white text-start p-4">
@@ -72,7 +69,6 @@ include 'koneksi.php';
           <div class="row mt-3">
             <div class="col">
               <div class="card p-4 bg-light" style="border-radius: 10px; border: 1px solid #ddd; width: 600px; max-width: 100%">
-
                 <div class="d-flex align-items-center mb-3">
                   <input type="search" id="search-job" name="q" placeholder="Masukkan kata kunci" 
                     class="form-control" style="max-width: 500px; border: 1px solid black;">
@@ -149,7 +145,7 @@ include 'koneksi.php';
         foreach ($lowongan as $row) {
       ?>
       <div class="col">
-        <a href="./perusahaan/detail-pekerjaan.php?id=<?= $row['ID_job']; ?>" class="text-decoration-none text-dark">
+        <a href="../perusahaan/detail-pekerjaan.php?id=<?= $row['ID_job']; ?>" class="text-decoration-none text-dark">
           <div class="card h-100 border rounded-4 bg-white shadow-sm" style="cursor: pointer">
             <div class="card-body d-flex">
               <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
@@ -208,7 +204,7 @@ include 'koneksi.php';
           <!-- Logo dan Deskripsi -->
           <div class="col-md-5">
             <div class="d-flex align-items-start mb-3">
-              <img src="logo%20careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
+              <img src="../logo%20careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
             </div>
             <p class="text-muted" style="max-width: 500px;">
               CareerBridge adalah platform yang membantu pencari kerja menemukan pekerjaan yang tepat dan memudahkan perusahaan dalam merekrut karyawan. Dengan sistem yang mudah digunakan, CareerBridge membuat proses mencari kerja dan perekrutan menjadi lebih cepat dan efisien.
@@ -219,9 +215,9 @@ include 'koneksi.php';
           <div class="col-md-2">
             <h6 class="fw-bold">Tentang Kami</h6>
             <div class="d-flex flex-column">
-              <a href="pusatbantuan.html" class="text-muted text-decoration-none mb-1">Pusat Bantuan</a>
-              <a href="kebijakanprivasi.html" class="text-muted text-decoration-none mb-1">Kebijakan Privasi</a>
-              <a href="snk.html" class="text-muted text-decoration-none mb-1">Kondisi dan Ketentuan</a>
+              <a href="../pusatbantuan.html" class="text-muted text-decoration-none mb-1">Pusat Bantuan</a>
+              <a href="../kebijakanprivasi.html" class="text-muted text-decoration-none mb-1">Kebijakan Privasi</a>
+              <a href="../snk.html" class="text-muted text-decoration-none mb-1">Kondisi dan Ketentuan</a>
             </div>
           </div>
     
@@ -229,9 +225,9 @@ include 'koneksi.php';
           <div class="col-md-2">
             <h6 class="fw-bold">Pencari Kerja</h6>
             <div class="d-flex flex-column">
-              <a href="./pelamar/daftarpekerja.php" class="text-muted text-decoration-none mb-1">Registrasi Pencari Kerja</a>
-              <a href="./pelamar/cari-loker.php" class="text-muted text-decoration-none mb-1">Cari Lowongan Kerja</a>
-              <a href="./artikel.html" class="text-muted text-decoration-none mb-1">Tips Loker</a>
+              <a href="daftarpekerja.php" class="text-muted text-decoration-none mb-1">Registrasi Pencari Kerja</a>
+              <a href="cari-loker.php" class="text-muted text-decoration-none mb-1">Cari Lowongan Kerja</a>
+              <a href="../artikel.html" class="text-muted text-decoration-none mb-1">Tips Loker</a>
             </div>
           </div>
     
@@ -239,8 +235,8 @@ include 'koneksi.php';
           <div class="col-md-3">
             <h6 class="fw-bold">Perusahaan</h6>
             <div class="d-flex flex-column">
-              <a href="./perusahaan/masukperusahaan.php" class="text-muted text-decoration-none mb-1">Registrasi Perusahaan</a>
-              <a href="./perusahaan/pasang-loker.php" class="text-muted text-decoration-none mb-1">Pasang Loker</a>
+              <a href="../perusahaan/masukperusahaan.php" class="text-muted text-decoration-none mb-1">Registrasi Perusahaan</a>
+              <a href="../perusahaan/pasang-loker.php" class="text-muted text-decoration-none mb-1">Pasang Loker</a>
             </div>
           </div>
         </div>

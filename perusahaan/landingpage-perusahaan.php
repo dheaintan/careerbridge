@@ -137,7 +137,6 @@ include '../koneksi.php';
           ORDER BY l.ID_job DESC LIMIT 9
         ";
 
-
         $stmt = $pdo->prepare($query);
         $stmt->execute();
 
@@ -148,9 +147,6 @@ include '../koneksi.php';
       <div class="col">
         <a href="detail-pekerjaan.php?id=<?= $row['ID_job']; ?>" class="text-decoration-none text-dark">
           <div class="card h-100 border rounded-4 bg-white shadow-sm" style="cursor: pointer">
-            <button class="btn rounded-circle btn-outline-dark position-absolute top-0 end-0 m-2 z-3" onclick="event.stopPropagation(); toggleSave(this);">
-              <i class="bi bi-heart"></i>
-            </button>
             <div class="card-body d-flex">
               <img src="..." alt="Logo Perusahaan" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;">
               <div class="d-flex flex-column justify-content-center">

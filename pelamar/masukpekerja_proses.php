@@ -23,7 +23,10 @@ try {
             $_SESSION['ID_user'] = $user['ID_user'];
             $_SESSION['role'] = $user['role'];
 
-            header("Location: landingpage-pelamar.html");
+            $updateStmt = $pdo->prepare("UPDATE login_signup SET last_login = NOW() WHERE ID_user = ?");
+            $updateStmt->execute([$_SESSION['ID_user']]);
+
+            header("Location: landingpage-pelamar.php");
             exit();
         } else {
             echo '<script>

@@ -1,3 +1,38 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['ID_user'])) {
+    header('Location: masukpekerja.php');
+    exit();
+}
+
+$ID_user = $_SESSION['ID_user'];
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "careerbridge";
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+    exit();
+}
+
+$sql = "SELECT simpan_loker.ID_job, posting_job.posisi, posting_job.nama_perusahaan, posting_job.lokasi, posting_job.tanggal_posting
+        FROM simpan_loker
+        JOIN posting_job ON simpan_loker.ID_job = posting_job.ID_job
+        WHERE simpan_loker.ID_user = :ID_user
+        ORDER BY simpan_loker.created_at DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':ID_user', $ID_user, PDO::PARAM_INT);
+
+$stmt->execute();
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -25,33 +60,34 @@
   <!-- Konten -->
   <div class="container my-5">
     <div class="row g-4">
-      <!-- Contoh Kartu Lowongan 1 -->
-      <div class="col-md-6">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Frontend Developer</h5>
-            <p class="card-text">PT Maju Jaya • Surabaya</p>
-            <p class="text-muted mb-1">Disimpan pada: 20 April 2025</p>
-            <a href="#" class="btn btn-primary btn-sm">Lihat Lowongan</a>
-            <a href="#" class="btn btn-outline-danger btn-sm">Hapus</a>
-          </div>
-        </div>
-      </div>
+      <?php
+            // Menampilkan setiap lowongan yang dibookmark
+            $lowongan = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($lowongan) {
+                foreach ($lowongan as $row) {
+                    $id_job = $row['ID_job'];
+                    $posisi = $row['posisi'];
+                    $nama_perusahaan = $row['nama_perusahaan'];
+                    $lokasi = $row['lokasi'];
+                    $tanggal_posting = date("d F Y", strtotime($row['tanggal_posting']));
+                    echo "
+                    <div class='col-md-6'>
+                        <div class='card shadow-sm'>
+                            <div class='card-body'>
+                                <h5 class='card-title'>$posisi</h5>
+                                <p class='card-text'>$nama_perusahaan • $lokasi</p>
+                                <p class='text-muted mb-1'>Disimpan pada: $tanggal_posting</p>
+                                <a href='lowongan_detail.php?id=$id_job' class='btn btn-primary btn-sm'>Lihat Lowongan</a>
+                                <a href='hapus_bookmark.php?id=$id_job' class='btn btn-outline-danger btn-sm'>Hapus</a>
+                            </div>
+                        </div>
+                    </div>";
+                }
+            } else {
+                echo "<p class='text-center'>Tidak ada lowongan yang dibookmark.</p>";
+            }
+            ?>
 
-      <!-- Contoh Kartu Lowongan 2 -->
-      <div class="col-md-6">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">UI/UX Designer</h5>
-            <p class="card-text">CV Kreatif Studio • Jakarta</p>
-            <p class="text-muted mb-1">Disimpan pada: 18 April 2025</p>
-            <a href="#" class="btn btn-primary btn-sm">Lihat Lowongan</a>
-            <a href="#" class="btn btn-outline-danger btn-sm">Hapus</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tambahkan kartu lain di sini -->
     </div>
   </div>
 
