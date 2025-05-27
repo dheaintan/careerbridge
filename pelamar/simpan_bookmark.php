@@ -1,48 +1,49 @@
 <?php
 session_start();
+require '../koneksi.php';
+
+header('Content-Type: application/json');
+
+$response = ['success' => false, 'message' => ''];
 
 if (!isset($_SESSION['ID_user'])) {
-    echo "User tidak login!";
+    $response['message'] = 'Anda harus login terlebih dahulu.';
+    echo json_encode($response);
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $ID_job = $_POST['ID_job'];
-    $ID_user = $_POST['ID_user'];
+$ID_user = $_SESSION['ID_user'];
+$job_id = isset($_POST['job_id']) ? intval($_POST['job_id']) : 0;
 
-    if (empty($ID_job) || empty($ID_user)) {
-        echo "Data tidak valid!";
-        exit;
-    }
-
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "careerbridge";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $sql = "INSERT INTO simpan_loker (ID_user, ID_job) VALUES ('$ID_user', '$ID_job')";
-    if ($conn->query($sql) === TRUE) {
-        echo "Pekerjaan berhasil disimpan!";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
-    $cek = $conn->prepare("SELECT * FROM simpan_loker WHERE ID_user = ? AND ID_job = ?");
-    $cek->bind_param("ii", $ID_user, $ID_job);
-    $cek->execute();
-    $cek_result = $cek->get_result();
-
-    if ($cek_result->num_rows > 0) {
-        echo "Lowongan sudah pernah disimpan!";
-        exit;
-    }
-
-    $conn->close();
+if ($job_id <= 0) {
+    $response['message'] = 'ID lowongan tidak valid.';
+    echo json_encode($response);
+    exit;
 }
+
+try {
+    // Periksa apakah lowongan sudah di-bookmark
+    $query = "SELECT * FROM simpan_loker WHERE ID_user = :id_user AND ID_job = :id_job";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute(['id_user' => $ID_user, 'id_job' => $job_id]);
+
+    if ($stmt->rowCount() > 0) {
+        $response['message'] = 'Lowongan ini sudah di-bookmark.';
+        echo json_encode($response);
+        exit;
+    }
+
+    // Simpan bookmark
+    $query = "INSERT INTO simpan_loker (ID_user, ID_job) VALUES (:id_user, :id_job)";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute(['id_user' => $ID_user, 'id_job' => $job_id]);
+
+    $response['success'] = true;
+    $response['message'] = 'Bookmark berhasil disimpan.';
+} catch (PDOException $e) {
+    $response['message'] = 'Gagal menyimpan bookmark: ' . $e->getMessage();
+    error_log('Bookmark Error: ' . $e->getMessage()); // Log error untuk debugging
+}
+
+echo json_encode($response);
 ?>
