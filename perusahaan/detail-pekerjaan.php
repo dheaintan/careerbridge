@@ -2,6 +2,8 @@
 session_start();
 include '../koneksi.php';
 
+$role = strtolower($_SESSION['role'] ?? '');
+
 if (!isset($pdo) || is_null($pdo)) {
     die("Variabel \$pdo tidak didefinisikan. Periksa file koneksi.php.");
 }
@@ -49,6 +51,18 @@ try {
             $alreadyBookmarked = true;
         }
     }
+
+    $alreadyApplied = false;
+    if ($isLoggedIn) {
+        $ID_user = $_SESSION['ID_user'];
+        $query = "SELECT * FROM apply_job WHERE ID_user = :id_user AND ID_job = :id_job";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['id_user' => $ID_user, 'id_job' => $id]);
+        if ($stmt->rowCount() > 0) {
+            $alreadyApplied = true;
+        }
+    }
+
 } catch (PDOException $e) {
     echo "Terjadi kesalahan: " . $e->getMessage();
     exit;
@@ -56,18 +70,18 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lowongan Kerja</title>
-    <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="../assets/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lowongan Kerja - CareerBridge</title>
+    <link rel="icon" type="image/x-icon" href="../logo%20careerbridge.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="../assets/bootstrap.min.css" rel="stylesheet" />
 </head>
 
 <body class="bg-light">
@@ -76,38 +90,34 @@ try {
             <a class="navbar-brand text-decoration-none">
                 <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
+                        <a class="nav-link active" aria-current="page" href="./pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
                     </li>
+                  
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
+                        <a class="nav-link active" aria-current="page" href="./perusahaan/pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
+                        <a class="nav-link active" aria-current="page" href="artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
                     </li>
-                    <?php if ($isLoggedIn): ?>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../pelamar/my_bookmarks.php" style="font-family: 'Inter', sans-serif;">Bookmark Saya</a>
-                        </li>
-                    <?php endif; ?>
                 </ul>
+              
                 <form class="d-flex align-items-center mx-1">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #e7f1a8; color: black; font-size: 0.90rem">
-                            <?php echo $isLoggedIn ? 'Akun Saya' : 'Masuk'; ?>
+                            Masuk
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <?php if ($isLoggedIn): ?>
-                                <li><a class="dropdown-item" href="../pelamar/logout.php">Logout</a></li>
-                            <?php else: ?>
-                                <li><a class="dropdown-item" href="../pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
-                                <li><a class="dropdown-item" href="masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
-                            <?php endif; ?>
+                            <li><a class="dropdown-item" href="./pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
+                            <li><a class="dropdown-item" href="./perusahaan/masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
                         </ul>
                     </div>
                 </form>
@@ -115,126 +125,156 @@ try {
         </div>
     </nav>
 
-    <div style="width: 100%; height: 2px; background-color: black;"></div>
+    <hr class="my-0" style="border-top: 2px solid black" />
 
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="border rounded-4 p-4 bg-white mb-4 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-start flex-wrap">
+    <main class="container my-5">
+        <div class="row gy-4">
+            <section class="col-lg-8">
+                <article class="bg-white p-4 rounded-4 shadow-sm border">
+                    <header class="d-flex flex-wrap justify-content-between align-items-start mb-3">
                         <div>
-                            <h4 class="fw-bold"><?= htmlspecialchars($loker['posisi']) ?></h4>
-                            <div class="fw-semibold" style="color: #364c84;"><?= htmlspecialchars($loker['nama_perusahaan']) ?></div>
+                            <h1 class="h4 fw-bold mb-1"><?= htmlspecialchars($loker['posisi']) ?></h1>
+                            <p class="fw-semibold mb-0" style="color:#364C84"><?= htmlspecialchars($loker['nama_perusahaan']) ?></p>
                         </div>
                         <div class="d-flex gap-2 mt-2">
                             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content rounded-4 p-3">
                                         <div class="modal-header border-0">
-                                            <h5 class="modal-title fw-bold" id="loginModalLabel">Tertarik dengan loker ini?</h5>
+                                            <h5 class="modal-title fw-bold" id="loginModalLabel">Tertarik dengan lowongan ini?</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                                         </div>
-                                        <div class="modal-body text-start">
-                                            <p class="mb-4">Kamu harus login dulu agar bisa menyimpan atau melamar lowongan pekerjaan yang kamu idamkan</p>
+                                        <div class="modal-body">
+                                            <p>Kamu harus login dulu agar bisa menyimpan atau melamar lowongan pekerjaan yang kamu idamkan.</p>
                                             <div class="d-flex gap-3">
-                                                <button type="button" class="btn btn-light flex-fill" data-bs-dismiss="modal" style="background-color: #CAC5C5;">Kembali</button>
+                                                <button type="button" class="btn btn-secondary flex-fill" data-bs-dismiss="modal">Kembali</button>
                                                 <a href="../pelamar/masukpekerja.php?redirect=<?= urlencode($_SERVER['REQUEST_URI']); ?>" class="btn btn-primary flex-fill" style="background-color: #364C84;">Login</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn <?php echo $alreadyBookmarked ? 'btn-secondary' : 'btn-outline-secondary'; ?> btn-sm" onclick="cekLogin('bookmark')">
-                                <i class="bi bi-bookmark<?php echo $alreadyBookmarked ? '-fill' : ''; ?>"></i>
+
+                            <button
+                                type="button"
+                                class="btn btn-sm <?= $alreadyBookmarked ? 'btn-secondary' : 'btn-outline-secondary' ?>"
+                                aria-pressed="<?= $alreadyBookmarked ? 'true' : 'false' ?>"
+                                aria-label="<?= $alreadyBookmarked ? 'Lowongan sudah di-bookmark' : 'Bookmark lowongan' ?>"
+                                onclick="cekLogin('bookmark')">
+                                <i class="bi bi-bookmark<?= $alreadyBookmarked ? '-fill' : '' ?>"></i>
                             </button>
-                            <button type="button" class="btn text-white" style="background-color: #364C84;" onclick="cekLogin('apply')">Lamar Sekarang</button>
+
+                            <?php
+                                $role = strtolower($_SESSION['role'] ?? '');
+                            ?>
+
+                            <?php if ($role === 'pelamar'): ?>
+                                <button type="button"
+                                    class="btn btn-sm text-white <?= $alreadyApplied ? 'btn-secondary disabled' : '' ?>"
+                                    style="background-color: #364C84" <?= $alreadyApplied ? 'aria-disabled="true"' : '' ?>
+                                    onclick="cekLogin('apply')"> <?= $alreadyApplied ? 'Sudah Melamar' : 'Lamar Sekarang' ?>
+                                </button>
+                            <?php elseif ($role === 'perusahaan'): ?>
+                                <button type="button"
+                                    class="btn btn-sm btn-secondary disabled"
+                                    aria-disabled="true"
+                                    title="Hanya pelamar yang dapat melamar pekerjaan"> Hanya untuk Pelamar
+                                </button>
+                            <?php else: ?>
+                                <button
+                                    type="button"
+                                    class="btn btn-sm text-white"
+                                    style="background-color: #364C84"
+                                    onclick="cekLogin('apply')"> Lamar Sekarang
+                                </button>
+                            <?php endif; ?>
+
                         </div>
-                    </div>
-                    <div class="row text-muted mt-4">
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-start">
-                                <i class="bi bi-geo-alt" style="color: #364c84; margin-right: 8px;"></i>
-                                <div>
-                                    <div class="fw-bold text-dark">Lokasi</div>
-                                    <p style="color: #364c84;"><?= htmlspecialchars($loker['lokasi']) ?></p>
-                                </div>
+                    </header>
+
+                    <section class="row text-muted">
+                        <div class="col-md-4 mb-3 d-flex align-items-start">
+                            <i class="bi bi-geo-alt fs-4 me-2" style="color:#364C84"></i>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Lokasi</h6>
+                                <p class="mb-0"><?= htmlspecialchars($loker['lokasi']) ?></p>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-start">
-                                <i class="bi bi-briefcase" style="color: #364c84; margin-right: 8px;"></i>
-                                <div>
-                                    <div class="fw-bold text-dark">Tipe Pekerjaan</div>
-                                    <p style="color: #364c84;"><?= htmlspecialchars($loker['tipe_pekerjaan']) ?></p>
-                                </div>
+                        <div class="col-md-4 mb-3 d-flex align-items-start">
+                            <i class="bi bi-briefcase fs-4 me-2" style="color:#364C84"></i>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Tipe Pekerjaan</h6>
+                                <p class="mb-0"><?= htmlspecialchars($loker['tipe_pekerjaan']) ?></p>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-start">
-                                <i class="bi bi-bar-chart" style="color: #364c84; margin-right: 8px;"></i>
-                                <div>
-                                    <div class="fw-bold text-dark">Level Pekerjaan</div>
-                                    <p style="color: #364c84;"><?= htmlspecialchars($loker['level_pekerjaan']) ?></p>
-                                </div>
+                        <div class="col-md-4 mb-3 d-flex align-items-start">
+                            <i class="bi bi-bar-chart fs-4 me-2" style="color:#364C84"></i>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Level Pekerjaan</h6>
+                                <p class="mb-0"><?= htmlspecialchars($loker['level_pekerjaan']) ?></p>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-start">
-                                <i class="bi bi-tags" style="color: #364c84; margin-right: 8px;"></i>
-                                <div>
-                                    <div class="fw-bold text-dark">Fungsi</div>
-                                    <p style="color: #364c84; font-family: 'M PLUS Rounded 1c', sans-serif;"><?= htmlspecialchars($loker['posisi']) ?></p>
-                                </div>
+                        <div class="col-md-4 mb-3 d-flex align-items-start">
+                            <i class="bi bi-tags fs-4 me-2" style="color:#364C84"></i>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Fungsi</h6>
+                                <p class="mb-0" style="font-family: 'M PLUS Rounded 1c', sans-serif;"><?= htmlspecialchars($loker['posisi']) ?></p>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-start">
-                                <i class="bi bi-mortarboard" style="color: #364c84; margin-right: 8px;"></i>
-                                <div>
-                                    <div class="fw-bold text-dark">Pendidikan</div>
-                                    <?php if (isset($loker) && isset($loker['jenjang_pendidikan'])): ?>
-                                        <p style="color: #364c84;"><?= htmlspecialchars($loker['jenjang_pendidikan']); ?></p>
-                                    <?php else: ?>
-                                        <p style="color: #364c84;">Data tidak tersedia</p>
-                                    <?php endif; ?>
-                                </div>
+                        <div class="col-md-4 mb-3 d-flex align-items-start">
+                            <i class="bi bi-mortarboard fs-4 me-2" style="color:#364C84"></i>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Pendidikan</h6>
+                                <?php if (!empty($loker['jenjang_pendidikan'])): ?>
+                                    <p class="mb-0"><?= htmlspecialchars($loker['jenjang_pendidikan']) ?></p>
+                                <?php else: ?>
+                                    <p class="mb-0 text-muted">Data tidak tersedia</p>
+                                <?php endif; ?>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-start">
-                                <i class="bi bi-cash-coin me-1" style="color: #364c84; margin-right: 8px;"></i>
-                                <div>
-                                    <div class="fw-bold text-dark">Gaji</div>
-                                    <?php if (isset($loker) && isset($loker['gaji_min']) && isset($loker['gaji_max'])): ?>
-                                        <p style="color: #364c84;">
-                                            Rp<?= number_format($loker['gaji_min'], 0, ',', '.'); ?> - Rp<?= number_format($loker['gaji_max'], 0, ',', '.'); ?>
-                                        </p>
-                                    <?php else: ?>
-                                        <p style="color: #364c84;">Gaji tidak tersedia</p>
-                                    <?php endif; ?>
-                                </div>
+                        <div class="col-md-4 mb-3 d-flex align-items-start">
+                            <i class="bi bi-cash-coin fs-4 me-2" style="color:#364C84"></i>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Gaji</h6>
+                                <?php if (!empty($loker['gaji_min']) && !empty($loker['gaji_max'])): ?>
+                                    <p class="mb-0">
+                                        Rp<?= number_format($loker['gaji_min'], 0, ',', '.') ?> - Rp<?= number_format($loker['gaji_max'], 0, ',', '.') ?>
+                                    </p>
+                                <?php else: ?>
+                                    <p class="mb-0 text-muted">Gaji tidak tersedia</p>
+                                <?php endif; ?>
                             </div>
                         </div>
-                    </div>
-                    <br>
-                    <p><?= htmlspecialchars($loker['nama_perusahaan']) ?> sedang membuka lowongan pekerjaan sebagai <?= htmlspecialchars($loker['posisi']) ?></p>
-                    <br>
-                    <h4 class="fw-bold">Tanggung Jawab Pekerjaan :</h4>
-                    <ul><?= htmlspecialchars($loker['deskripsi_loker']) ?></ul>
-                </div>
-            </div>
-            <div class="col-lg-4">
+                    </section>
+
+                    <section class="mt-4">
+                        <p><?= htmlspecialchars($loker['nama_perusahaan']) ?> sedang membuka lowongan pekerjaan sebagai <strong><?= htmlspecialchars($loker['posisi']) ?></strong>.</p>
+                        <h2 class="h5 fw-bold mt-4">Tanggung Jawab Pekerjaan:</h2>
+                        <p><?= nl2br(htmlspecialchars($loker['deskripsi_loker'])) ?></p>
+                    </section>
+                </article>
+            </section>
+
+            <aside class="col-lg-4">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="rounded-circle bg-secondary mx-auto mb-3" style="width: 60px; height: 60px;"></div>
-                        <h6 class="fw-bold"><?= htmlspecialchars($loker['nama_perusahaan']) ?></h6>
-                        <p class="text-muted small mb-1"><i class="bi bi-geo-alt"></i><?= htmlspecialchars($loker['lokasi']) ?></p>
-                        <p class="small"><?= htmlspecialchars($loker['nama_perusahaan']) ?> adalah <?= htmlspecialchars($data['deskripsi_perusahaan'] ?? 'Deskripsi perusahaan tidak tersedia') ?>.</p>
+                        <div
+                            class="rounded-circle bg-secondary mx-auto mb-3"
+                            style="width: 60px; height: 60px;"
+                            aria-hidden="true"
+                        ></div>
+                        <h3 class="h6 fw-bold"><?= htmlspecialchars($loker['nama_perusahaan']) ?></h3>
+                        <p class="text-muted small mb-1"><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($loker['lokasi']) ?></p>
+                        <p class="small">
+                            <?= htmlspecialchars($loker['nama_perusahaan']) ?> adalah
+                            <?= htmlspecialchars($data['deskripsi_perusahaan'] ?? 'Deskripsi perusahaan tidak tersedia') ?>.
+                        </p>
                     </div>
                 </div>
+
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h6 class="fw-bold mb-3">Loker Serupa</h6>
+                        <h2 class="h6 fw-bold mb-3">Lowongan Serupa</h2>
                         <?php
                         try {
                             $query = "
@@ -253,94 +293,88 @@ try {
                                 WHERE l.status_lowongan = 'buka'
                                 ORDER BY l.ID_job DESC LIMIT 5
                             ";
-
                             $stmt = $pdo->prepare($query);
                             $stmt->execute();
                             $lowongan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                            foreach ($lowongan as $row) {
+                            foreach ($lowongan as $row):
                         ?>
-                            <a href="detail-pekerjaan.php?id=<?= $row['ID_job']; ?>" class="text-decoration-none text-dark">
-                                <div class="d-flex mb-3">
-                                    <div class="rounded-circle bg-secondary me-3" style="width: 75px; height: 75px;"></div>
+                            <a href="detail-pekerjaan.php?id=<?= $row['ID_job'] ?>" class="text-decoration-none text-dark d-block mb-3">
+                                <div class="d-flex gap-3 align-items-center">
+                                    <div
+                                        class="rounded-circle bg-secondary"
+                                        style="width: 75px; height: 75px;"
+                                        aria-hidden="true"
+                                    ></div>
                                     <div class="flex-grow-1">
-                                        <div style="font-size: 0.9rem; color: #95B1EE;"><?= htmlspecialchars($row['nama_perusahaan']); ?></div>
-                                        <div class="fw-bold" style="font-size: 1rem; font-family: 'M PLUS Rounded 1c', sans-serif;">
-                                            <?= htmlspecialchars($row['posisi']); ?>
+                                        <div class="text-primary small"><?= htmlspecialchars($row['nama_perusahaan']) ?></div>
+                                        <div class="fw-bold fs-5" style="font-family: 'M PLUS Rounded 1c', sans-serif;">
+                                            <?= htmlspecialchars($row['posisi']) ?>
                                         </div>
-                                        <div class="d-flex mt-2 text-muted" style="font-size: 0.9rem;">
-                                            <div class="me-3 d-flex align-items-center" style="color: #CAC5C5;">
-                                                <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($row['lokasi']); ?>
-                                            </div>
-                                            <div class="d-flex align-items-center" style="color: #CAC5C5;">
-                                                <i class="bi bi-cash-coin me-1"></i>
-                                                <?= number_format($row['gaji_min'], 0, ',', '.'); ?> - <?= number_format($row['gaji_max'], 0, ',', '.'); ?>
-                                            </div>
+                                        <div class="d-flex gap-3 text-muted small mt-1">
+                                            <div><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($row['lokasi']) ?></div>
+                                            <div><i class="bi bi-cash-coin"></i> Rp<?= number_format($row['gaji_min'], 0, ',', '.') ?> - Rp<?= number_format($row['gaji_max'], 0, ',', '.') ?></div>
                                         </div>
                                     </div>
                                 </div>
                             </a>
                         <?php
-                            }
+                            endforeach;
                         } catch (PDOException $e) {
-                            echo "Terjadi kesalahan: " . $e->getMessage();
+                            echo "<p class='text-danger'>Terjadi kesalahan: " . htmlspecialchars($e->getMessage()) . "</p>";
                         }
                         ?>
                     </div>
                 </div>
-            </div>
+            </aside>
         </div>
-    </div>
+    </main>
 
-    <footer class="text-white py-5" style="background-color: #364c84">
-        <div class="container text-white">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="d-flex align-items-start mb-3">
-                        <img src="../logo%20careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
-                    </div>
-                    <p style="max-width: 500px;">
+    <footer class="text-white py-5" style="background-color:#364C84">
+        <div class="container">
+            <div class="row gy-4">
+                <section class="col-md-5">
+                    <img src="../logo%20careerbridge.png" alt="CareerBridge" height="100" class="mb-3" />
+                    <p>
                         CareerBridge adalah platform yang membantu pencari kerja menemukan pekerjaan yang tepat dan memudahkan perusahaan dalam merekrut karyawan. Dengan sistem yang mudah digunakan, CareerBridge membuat proses mencari kerja dan perekrutan menjadi lebih cepat dan efisien.
                     </p>
-                </div>
-                <div class="col-md-2">
-                    <h6 class="fw-bold">Tentang Kami</h6>
-                    <div class="d-flex flex-column">
-                        <a href="../pusatbantuan.html" class="text-white text-decoration-none mb-1">Pusat Bantuan</a>
-                        <a href="../kebijakanprivasi.html" class="text-white text-decoration-none mb-1">Kebijakan Privasi</a>
-                        <a href="../snk.html" class="text-white text-decoration-none mb-1">Kondisi dan Ketentuan</a>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <h6 class="fw-bold">Pencari Kerja</h6>
-                    <div class="d-flex flex-column">
-                        <a href="../pelamar/daftarpekerja.php" class="text-white text-decoration-none mb-1">Registrasi Pencari Kerja</a>
-                        <a href="../pelamar/cari-loker.php" class="text-white text-decoration-none mb-1">Cari Lowongan Kerja</a>
-                        <a href="../artikel.html" class="text-white text-decoration-none mb-1">Tips Loker</a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <h6 class="fw-bold">Perusahaan</h6>
-                    <div class="d-flex flex-column">
-                        <a href="masukperusahaan.php" class="text-white text-decoration-none mb-1">Registrasi Perusahaan</a>
-                        <a href="pasang-loker.php" class="text-white text-decoration-none mb-1">Pasang Loker</a>
-                    </div>
-                </div>
+                </section>
+                <section class="col-md-2">
+                    <h3 class="h6 fw-bold">Tentang Kami</h3>
+                    <nav class="nav flex-column fs-6">
+                        <a href="../pusatbantuan.html" class="nav-link p-0 text-white">Pusat Bantuan</a>
+                        <a href="../kebijakanprivasi.html" class="nav-link p-0 text-white">Kebijakan Privasi</a>
+                        <a href="../snk.html" class="nav-link p-0 text-white">Kondisi dan Ketentuan</a>
+                    </nav>
+                </section>
+                <section class="col-md-2">
+                    <h3 class="h6 fw-bold">Pencari Kerja</h3>
+                    <nav class="nav flex-column fs-6">
+                        <a href="../pelamar/daftarpekerja.php" class="nav-link p-0 text-white">Registrasi Pencari Kerja</a>
+                        <a href="../pelamar/cari-loker.php" class="nav-link p-0 text-white">Cari Lowongan Kerja</a>
+                        <a href="../artikel.html" class="nav-link p-0 text-white">Tips Loker</a>
+                    </nav>
+                </section>
+                <section class="col-md-3">
+                    <h3 class="h6 fw-bold">Perusahaan</h3>
+                    <nav class="nav flex-column fs-6">
+                        <a href="masukperusahaan.php" class="nav-link p-0 text-white">Registrasi Perusahaan</a>
+                        <a href="pasang-loker.php" class="nav-link p-0 text-white">Pasang Loker</a>
+                    </nav>
+                </section>
             </div>
-            <div class="text-center mt-4 text-white small">
+            <div class="text-center mt-4 small">
                 <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script>
-        const isLoggedIn = <?php echo json_encode($isLoggedIn); ?>;
-        const jobId = <?php echo json_encode($id); ?>;
+        const isLoggedIn = <?= json_encode($isLoggedIn) ?>;
+        const jobId = <?= json_encode($id) ?>;
 
         function cekLogin(action = 'bookmark') {
-            console.log('cekLogin dipanggil dengan action:', action);
-            console.log('isLoggedIn:', isLoggedIn);
             if (!isLoggedIn) {
                 const modal = new bootstrap.Modal(document.getElementById('loginModal'));
                 modal.show();
@@ -348,47 +382,56 @@ try {
                 if (action === 'bookmark') {
                     saveBookmark(jobId);
                 } else if (action === 'apply') {
-                    window.location.href = "../pelamar/landingpage-pelamar.php";
+                    applyJob(jobId);
                 }
             }
         }
 
         function saveBookmark(jobId) {
-            console.log('Mengirim jobId:', jobId);
             fetch('../pelamar/simpan_bookmark.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `job_id=${jobId}`
             })
             .then(response => {
-                console.log('Respon:', response);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
+                if (!response.ok) throw new Error(response.statusText);
                 return response.json();
             })
             .then(data => {
-                console.log('Data:', data);
                 if (data.success) {
-                    const bookmarkBtn = document.querySelector('button.btn-sm');
-                    if (bookmarkBtn) {
-                        bookmarkBtn.classList.remove('btn-outline-secondary');
-                        bookmarkBtn.classList.add('btn-secondary');
-                        bookmarkBtn.innerHTML = '<i class="bi bi-bookmark-fill"></i>';
+                    const btn = document.querySelector('button.btn-sm');
+                    if (btn) {
+                        btn.classList.remove('btn-outline-secondary');
+                        btn.classList.add('btn-secondary');
+                        btn.innerHTML = '<i class="bi bi-bookmark-fill"></i>';
                         alert('Lowongan berhasil disimpan!');
-                    } else {
-                        console.error('Tombol bookmark tidak ditemukan');
                     }
                 } else {
                     alert('Gagal menyimpan lowongan: ' + data.message);
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan saat menyimpan lowongan: ' + error.message);
-            });
+            .catch(error => alert('Terjadi kesalahan: ' + error.message));
+        }
+
+        function applyJob(jobId) {
+            fetch('../pelamar/simpan_lamaran.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `job_id=${jobId}`
+            })
+            .then(response => {
+                if (!response.ok) throw new Error(response.statusText);
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Lamaran berhasil dikirim!');
+                    window.location.href = "../pelamar/dashboard-pelamar.php";
+                } else {
+                    alert('Gagal melamar: ' + data.message);
+                }
+            })
+            .catch(error => alert('Terjadi kesalahan saat melamar: ' + error.message));
         }
     </script>
 </body>

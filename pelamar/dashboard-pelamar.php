@@ -19,6 +19,14 @@ if (!$user) {
 } else {
     $nama_lengkap = $user['nama_lengkap'];
 }
+
+$stmt = $pdo->prepare("SELECT p.posisi, p.nama_perusahaan, a.created_at 
+                       FROM apply_job a
+                       JOIN posting_job p ON a.ID_job = p.ID_job
+                       WHERE a.ID_user = ? 
+                       ORDER BY a.created_at DESC");
+$stmt->execute([$id_user]);
+$lamaran = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +59,6 @@ if (!$user) {
         <div class="list-group">
           <p class="list-group-item list-group-item-action active">Beranda</p>
           <a href="editprofil-pelamar.php" class="list-group-item list-group-item-action">Profil Saya</a>
-          <a href="riwayatlamaran-pelamar.html" class="list-group-item list-group-item-action">Riwayat Lamaran</a>
           <a href="lowongandisimpan-pelamar.php" class="list-group-item list-group-item-action">Lowongan Disimpan</a>
         </div>
       </div>
@@ -68,23 +75,23 @@ if (!$user) {
             <tr>
               <th>Posisi</th>
               <th>Perusahaan</th>
-              <th>Status</th>
               <th>Tanggal Lamar</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Frontend Developer</td>
-              <td>PT Maju Jaya</td>
-              <td><span class="badge bg-warning text-dark">Diproses</span></td>
-              <td>26 April 2025</td>
-            </tr>
-            <tr>
-              <td>UI/UX Designer</td>
-              <td>CV Kreatif Digital</td>
-              <td><span class="badge bg-success">Diterima</span></td>
-              <td>20 April 2025</td>
-            </tr>
+            <?php
+              if (count($lamaran) > 0) {
+                foreach ($lamaran as $row) {
+                  echo "<tr>
+                          <td>" . htmlspecialchars($row['posisi']) . "</td>
+                          <td>" . htmlspecialchars($row['nama_perusahaan']) . "</td>
+                          <td>" . date('d F Y', strtotime($row['created_at'])) . "</td>
+                        </tr>";
+                  }
+                } else {
+                  echo "<tr><td colspan='3'>Tidak ada riwayat lamaran.</td></tr>";
+                }
+              ?>
           </tbody>
         </table>
       </div>

@@ -97,7 +97,6 @@ if (isset($_SESSION['ID_user'])) {
     <footer class="text-white py-5" style="background-color: #364c84;">
       <div class="container">
         <div class="row">
-          <!-- Logo dan Deskripsi -->
           <div class="col-md-5">
             <div class="d-flex align-items-start mb-3">
               <img src="../logo%20careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
@@ -107,7 +106,6 @@ if (isset($_SESSION['ID_user'])) {
             </p>
           </div>
     
-          <!-- Tentang Kami -->
           <div class="col-md-2">
             <h6 class="fw-bold text-white">Tentang Kami</h6>
             <div class="d-flex flex-column">
@@ -117,7 +115,6 @@ if (isset($_SESSION['ID_user'])) {
             </div>
           </div>
     
-          <!-- Pencari Kerja -->
           <div class="col-md-2">
             <h6 class="fw-bold text-white">Pencari Kerja</h6>
             <div class="d-flex flex-column">
@@ -127,7 +124,6 @@ if (isset($_SESSION['ID_user'])) {
             </div>
           </div>
     
-          <!-- Perusahaan -->
           <div class="col-md-3">
             <h6 class="fw-bold text-white">Perusahaan</h6>
             <div class="d-flex flex-column">
@@ -137,7 +133,6 @@ if (isset($_SESSION['ID_user'])) {
           </div>
         </div>
     
-        <!-- Copyright -->
         <div class="text-center mt-4 text-white small">
           <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
         </div>

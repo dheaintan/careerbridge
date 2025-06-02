@@ -32,6 +32,9 @@ try {
                 $_SESSION['ID_user'] = $user['ID_user'];
                 $_SESSION['role'] = $user['role'];
 
+                $stmt_update = $pdo->prepare("UPDATE login_signup SET last_login = CURRENT_TIMESTAMP WHERE ID_user = ?");
+                $stmt_update->execute([$_SESSION['ID_user']]);
+
                 $stmt2 = $pdo->prepare("SELECT ID_Perusahaan FROM perusahaan WHERE ID_user = ?");
                 $stmt2->execute([$_SESSION['ID_user']]);
                 $perusahaan = $stmt2->fetch();

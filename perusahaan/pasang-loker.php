@@ -1,178 +1,198 @@
+<?php
+session_start();
+
+$role = strtolower($_SESSION['role'] ?? '');
+$username = $_SESSION['username'] ?? '';
+
+$isLoggedIn = isset($_SESSION['ID_user']) && !empty($_SESSION['ID_user']);
+$href = '#';
+
+if ($isLoggedIn && $role === 'perusahaan') {
+    $href = 'dashboard-perusahaan.php';
+} else {
+    $href = 'masukperusahaan.php';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pasang Iklan Lowongan Kerja - CareerBridge</title>
-  <link rel="icon" href="../logo%20careerbridge.png" type="image/x-icon" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-  <style>
-    :root {
-      --brand-color: #364C84;
-    }
-    .bg-brand {
-      background-color: var(--brand-color) !important;
-    }
-    .text-brand {
-      color: var(--brand-color) !important;
-    }
-    .btn-brand {
-      background-color: var(--brand-color);
-      border: none;
-      color: white;
-      transition: background-color 0.3s ease;
-    }
-    .btn-brand:hover {
-      background-color: #2b3a63;
-      color: white;
-    }
-    .nav-link.active {
-      color: var(--brand-color) !important;
-      font-weight: 600;
-      border-bottom: 3px solid var(--brand-color);
-    }
-    footer a:hover {
-      color: var(--brand-color);
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body class="bg-light">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Pasang Iklan Lowongan Kerja - CareerBridge</title>
+    <link rel="icon" href="../logo%20careerbridge.png" type="image/x-icon"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  </head>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg bg-brand navbar-dark shadow-sm sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" />
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-6">
-          <li class="nav-item">
-            <a class="nav-link" href="./pelamar/cari-loker.php">Cari Lowongan Kerja</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Pasang Lowongan</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../artikel.html">Tips Loker</a>
-          </li>
-        </ul>
-        <div class="d-flex align-items-center">
-          <div class="dropdown">
-            <button
-              class="btn btn-light dropdown-toggle text-brand"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Masuk
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="../pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
-              <li><a class="dropdown-item" href="masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
+    <body class="bg-light">
+        <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand text-decoration-none">
+                    <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
+                </a>
+            
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-  <!-- Hero -->
-  <section class="bg-brand text-white text-center py-5 mb-5 rounded-bottom">
-    <div class="container">
-      <h1 class="display-5 fw-bold fst-italic">Pasang Iklan Lowongan Kerja</h1>
-      <p class="lead">Temukan Kandidat Terbaik, Rekrut dengan Mudah!</p>
-    </div>
-  </section>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../pelamar/cari-loker" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active  border-bottom border-dark" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
+                        </li>
 
-  <!-- Breadcrumb -->
-  <nav aria-label="breadcrumb" class="container mb-4">
-    <ol class="breadcrumb bg-transparent p-0 mb-0">
-      <li class="breadcrumb-item"><a href="./pelamar/cari-loker.php" class="text-decoration-none text-muted">Beranda</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Pasang Lowongan</li>
-    </ol>
-  </nav>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
+                        </li>
+                    </ul>
+                    
+                    <form class="d-flex align-items-center mx-1">
+                        <div class="dropdown">
+                            <?php if ($role === 'pelamar'): ?>
+                                <button class="btn dropdown-toggle d-flex align-items-center"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    style="background-color: #e7f1a8; color: black; font-size: 0.90rem;">
+                                    <i class="bi bi-person-circle me-2" style="font-size: 1.2rem;"></i> <?= htmlspecialchars($username ?: 'Profil Pelamar') ?>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="../pelamar/dashboard-pelamar.php">Dashboard Pelamar</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="../pelamar/logout-pelamar.php">Logout</a></li>
+                                </ul>
 
-  <!-- Main Content -->
-  <main class="container mb-5">
-    <div class="row align-items-center gy-4">
-      <div class="col-md-6 text-center">
-        <img
-          src="https://blush.design/api/download?shareUri=vK7buK3J0r3Kgf6N&c=Hair_0%7Ed5d5d5-0.7%7E372310-0.8%7Ed5d5d5_Skin_0%7Ec3986a-0.7%7E673a18-0.8%7Ec3986a&w=800&h=800&fm=png"
-          alt="Ilustrasi Rekrutmen"
-          class="img-fluid rounded shadow-sm"
-          loading="lazy"
-        />
-      </div>
-      <div class="col-md-6">
-        <h3 class="fw-semibold mb-3">Ucapkan Selamat Tinggal pada Perekrutan Ribet! <span>🚀</span></h3>
-        <p>
-          Lelah dengan email penuh lamaran kerja yang bikin server ngelag?  
-          Atau kesulitan menyaring kandidat hingga justru yang terpilih bukan yang terbaik?
-        </p>
-        <p>
-          Kini saatnya beralih ke metode perekrutan yang <strong>praktis</strong>, 
-          <strong>efisien</strong>, dan <strong>tepat sasaran</strong>.  
-          Dengan <strong>CareerBridge</strong>, Anda bisa menemukan kandidat terbaik untuk setiap posisi  
-          dengan lebih cepat, lebih mudah, dan tanpa ribet!
-        </p>
-        <p class="fw-semibold text-white fs-5">🔍 Pasang iklan loker sekarang dan dapatkan talenta terbaik!</p>
-        <a href="./masukperusahaan.php" class="btn btn-light btn-lg text-brand fw-semibold">Pasang Loker Sekarang!</a>
-      </div>
-    </div>
-  </main>
+                                <?php elseif ($role === 'perusahaan'): ?>
+                                <button class="btn dropdown-toggle d-flex align-items-center"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    style="background-color: #e7f1a8; color: black; font-size: 0.90rem;">
+                                    <i class="bi bi-building me-2" style="font-size: 1.2rem;"></i> <?= htmlspecialchars($username ?: 'Profil Perusahaan') ?>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="dashboard-perusahaan.php">Dashboard Perusahaan</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="logout-perusahaan.php">Logout</a></li>
+                                </ul>
 
-  <!-- Footer -->
-  <footer class="bg-light text-muted pt-5 pb-4 border-top">
-    <div class="container">
-      <div class="row gy-4">
-        <div class="col-md-5">
-          <img src="../logo%20careerbridge.png" alt="CareerBridge" height="80" class="mb-3" />
-          <p class="small">
-            CareerBridge adalah platform yang membantu pencari kerja menemukan pekerjaan yang tepat dan memudahkan perusahaan dalam merekrut karyawan. Dengan sistem yang mudah digunakan, CareerBridge membuat proses mencari kerja dan perekrutan menjadi lebih cepat dan efisien.
-          </p>
-        </div>
-        <div class="col-md-2">
-          <h6 class="fw-semibold">Tentang Kami</h6>
-          <ul class="list-unstyled small">
-            <li><a href="../pusatbantuan.html">Pusat Bantuan</a></li>
-            <li><a href="../kebijakanprivasi.html">Kebijakan Privasi</a></li>
-            <li><a href="../snk.html">Kondisi dan Ketentuan</a></li>
-          </ul>
-        </div>
-        <div class="col-md-2">
-          <h6 class="fw-semibold">Pencari Kerja</h6>
-          <ul class="list-unstyled small">
-            <li><a href="../pelamar/daftarpekerja.php">Registrasi Pencari Kerja</a></li>
-            <li><a href="../pelamar/cari-loker.php">Cari Lowongan Kerja</a></li>
-            <li><a href="../artikel.html">Tips Loker</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h6 class="fw-semibold">Perusahaan</h6>
-          <ul class="list-unstyled small">
-            <li><a href="masukperusahaan.php">Registrasi Perusahaan</a></li>
-            <li><a href="pasang-loker.php">Pasang Loker</a></li>
-          </ul>
-        </div>
-      </div>
-      <hr />
-      <p class="text-center small mb-0">&copy; 2025 CareerBridge - Semua Hak Dilindungi</p>
-    </div>
-  </footer>
+                                <?php else: ?>
+                                    <button
+                                        class="btn dropdown-toggle"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        style="background-color: #e7f1a8; color: black; font-size: 0.90rem;">
+                                        Masuk
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="../pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
+                                        <li><a class="dropdown-item" href="../perusahaan/masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
+                                    </ul>
+                            <?php endif; ?>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </nav>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <section class="text-white text-center py-3" style="background-color: #364C84;">
+            <div class="container">
+                <h1 class="display-5 fw-bold" style="font-family: 'Inter', sans-serif">Pasang Iklan Lowongan Kerja</h1>
+                <p class="lead mb-3" style="font-family: 'Inter', sans-serif">Rekrut Kandidat Terbaik dengan Mudah Bersama CareerBridge 🚀</p>
+            </div>
+        </section>
+
+        <nav aria-label="breadcrumb" class="container my-3">
+            <ol class="breadcrumb bg-transparent p-0 mb-0">
+                <li class="breadcrumb-item">
+                    <a href="../pelamar/cari-loker.php" class="text-decoration-none text-muted">Beranda</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Pasang Lowongan</li>
+            </ol>
+        </nav>
+
+        <main class="container mb-5">
+            <div class="row align-items-center gy-4">
+                <div class="col-md-6">
+                    <h3 class="fw-bold mb-4" style="color: #364C84">Perekrutan Praktis &amp; Efisien</h3>
+                    <p class="text-muted mb-3">
+                        Tinggalkan cara lama yang ribet! Dengan CareerBridge, Anda bisa:
+                    </p>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill me-2" style="color: #364C84"></i>
+                            <span class="fw-semibold">Menjangkau Kandidat Terbaik:</span> Iklan Anda akan dilihat oleh ribuan pencari kerja berkualitas.
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-clock-fill me-2" style="color: #364C84"></i>
+                            <span class="fw-semibold">Hemat Waktu:</span> Filter otomatis membantu Anda menemukan kandidat yang sesuai dengan cepat.
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-gear-fill me-2" style="color: #364C84"></i>
+                            <span class="fw-semibold">Proses Mudah:</span> Pasang lowongan hanya dalam beberapa langkah sederhana.
+                        </li>
+                    </ul>
+                    <a href="<?= htmlspecialchars($href) ?>" class="btn fw-semibold mt-3 text-white" style="background-color: #364C84">
+                        Mulai Sekarang
+                    </a>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="https://blush.design/api/download?shareUri=vK7buK3J0r3Kgf6N&c=Hair_0%7Ed5d5d5-0.7%7E372310-0.8%7Ed5d5d5_Skin_0%7Ec3986a-0.7%7E673a18-0.8%7Ec3986a&w=800&h=800&fm=png" alt="Ilustrasi Rekrutmen" class="img-fluid rounded shadow-sm" loading="lazy"/>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-white py-5" style="background-color: #364C84;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="d-flex align-items-start mb-3">
+                            <img src="../logo%20careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top" />
+                        </div>
+                        <p>
+                            CareerBridge adalah platform yang membantu pencari kerja menemukan pekerjaan yang tepat dan memudahkan perusahaan dalam merekrut karyawan. Dengan sistem yang mudah digunakan, CareerBridge membuat proses mencari kerja dan perekrutan menjadi lebih cepat dan efisien.
+                        </p>
+                    </div>
+
+                    <div class="col-md-2">
+                        <h6 class="fw-bold">Tentang Kami</h6>
+                        <div class="d-flex flex-column">
+                            <a href="../pusatbantuan.html" class="text-white text-decoration-none mb-1">Pusat Bantuan</a>
+                            <a href="../kebijakanprivasi.html" class="text-white text-decoration-none mb-1">Kebijakan Privasi</a>
+                            <a href="../snk.html" class="text-white text-decoration-none mb-1">Kondisi dan Ketentuan</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <h6 class="fw-bold">Pencari Kerja</h6>
+                        <div class="d-flex flex-column">
+                            <a href="../pelamar/daftarpekerja.php" class="text-white text-decoration-none mb-1">Registrasi Pencari Kerja</a>
+                            <a href="../pelamar/cari-loker.php" class="text-white text-decoration-none mb-1">Cari Lowongan Kerja</a>
+                            <a href="../artikel.html" class="text-white text-decoration-none mb-1">Tips Loker</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h6 class="fw-bold">Perusahaan</h6>
+                        <div class="d-flex flex-column">
+                            <a href="masukperusahaan.php" class="text-white text-decoration-none mb-1">Registrasi Perusahaan</a>
+                            <a href="pasang-loker.php" class="text-white text-decoration-none mb-1">Pasang Loker</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4 small">
+                <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
+                </div>
+            </div>
+        </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

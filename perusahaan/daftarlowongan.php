@@ -72,7 +72,7 @@ try {
                                 ?>
                             </td>
                             <td>
-                                <a href="lihat-pelamar.php?ID_job=<?php echo $lowongan['ID_job']; ?>" class="btn btn-sm btn-info">Lihat Lowongan</a>
+                                <a href="lihat-pelamar.php?ID_job=<?php echo $lowongan['ID_job']; ?>" class="btn btn-sm btn-info">Lihat Pelamar</a>
                                 <a href="edit-lowongan.php?ID_job=<?php echo $lowongan['ID_job']; ?>" class="btn btn-sm btn-warning">Edit Lowongan</a>
                             </td>
                         </tr>

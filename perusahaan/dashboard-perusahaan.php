@@ -72,7 +72,6 @@ try {
                     <p class="list-group-item list-group-item-action active">Beranda</p>
                     <a href="editprofil-perusahaan.php" class="list-group-item list-group-item-action">Profil Perusahaan</a>
                     <a href="daftarlowongan.php" class="list-group-item list-group-item-action">Daftar Lowongan</a>
-                    <a href="#" class="list-group-item list-group-item-action">Riwayat Pelamar</a>
                 </div>
             </div>
 

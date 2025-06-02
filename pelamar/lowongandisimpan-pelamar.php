@@ -11,7 +11,7 @@ $ID_user = $_SESSION['ID_user'];
 require '../koneksi.php';
 
 try {
-    $sql = "SELECT simpan_loker.ID_job, posting_job.posisi, posting_job.nama_perusahaan, posting_job.lokasi, posting_job.tanggal_posting
+    $sql = "SELECT simpan_loker.ID_simpan, simpan_loker.ID_job, posting_job.posisi, posting_job.nama_perusahaan, posting_job.lokasi, posting_job.tanggal_posting
             FROM simpan_loker
             JOIN posting_job ON simpan_loker.ID_job = posting_job.ID_job
             WHERE simpan_loker.ID_user = :ID_user
@@ -75,30 +75,31 @@ try {
 
     <div class="container my-5">
         <h3 class="mb-4">Lowongan Disimpan</h3>
-        <div class="row g-4">
+        <div class="row g-4" id="bookmarkList">
             <?php
             if ($lowongan) {
                 foreach ($lowongan as $row) {
+                    $id_simpan = htmlspecialchars($row['ID_simpan']);
                     $id_job = htmlspecialchars($row['ID_job']);
                     $posisi = htmlspecialchars($row['posisi']);
                     $nama_perusahaan = htmlspecialchars($row['nama_perusahaan']);
                     $lokasi = htmlspecialchars($row['lokasi']);
                     $tanggal_posting = date("d F Y", strtotime($row['tanggal_posting']));
                     echo "
-                    <div class='col-md-6'>
+                    <div class='col-md-6 bookmark-item' data-id-simpan='$id_simpan'>
                         <div class='card shadow-sm'>
                             <div class='card-body'>
                                 <h5 class='card-title'>$posisi</h5>
                                 <p class='card-text'>$nama_perusahaan • $lokasi</p>
                                 <p class='text-muted mb-1'>Diposting pada: $tanggal_posting</p>
                                 <a href='../perusahaan/detail-pekerjaan.php?id=$id_job' class='btn btn-primary btn-sm'>Lihat Lowongan</a>
-                                <a href='hapus_bookmark.php?id=$id_job' class='btn btn-outline-danger btn-sm'>Hapus</a>
+                                <button class='btn btn-outline-danger btn-sm delete-bookmark' data-id-simpan='$id_simpan'>Hapus</button>
                             </div>
                         </div>
                     </div>";
                 }
             } else {
-                echo "<p class='text-center'>Tidak ada lowongan yang dibookmark.</p>";
+                echo "<p class='text-center' id='noBookmarksMessage'>Tidak ada lowongan yang dibookmark.</p>";
             }
             ?>
         </div>
@@ -146,5 +147,53 @@ try {
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.querySelectorAll('.delete-bookmark').forEach(button => {
+            button.addEventListener('click', function() {
+                const idSimpan = this.getAttribute('data-id-simpan');
+                console.log('Menghapus bookmark dengan ID_simpan:', idSimpan);
+
+                if (!confirm('Apakah Anda yakin ingin menghapus bookmark ini?')) {
+                    return;
+                }
+
+                fetch('hapus_bookmark.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id_simpan=${idSimpan}`
+                })
+                .then(response => {
+                    console.log('Respon hapus:', response);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Data hapus:', data);
+                    if (data.success) {
+                        const bookmarkItem = document.querySelector(`.bookmark-item[data-id-simpan="${idSimpan}"]`);
+                        if (bookmarkItem) {
+                            bookmarkItem.remove();
+                            alert('Bookmark berhasil dihapus!');
+                        }
+                        const remainingBookmarks = document.querySelectorAll('.bookmark-item');
+                        if (remainingBookmarks.length === 0) {
+                            const bookmarkList = document.getElementById('bookmarkList');
+                            bookmarkList.innerHTML = "<p class='text-center' id='noBookmarksMessage'>Tidak ada lowongan yang dibookmark.</p>";
+                        }
+                    } else {
+                        alert('Gagal menghapus bookmark: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error hapus:', error);
+                    alert('Terjadi kesalahan saat menghapus bookmark: ' + error.message);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
