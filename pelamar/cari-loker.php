@@ -134,28 +134,30 @@ $username = $_SESSION['username'] ?? '';
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                                 style="background-color: #e7f1a8; color: black; font-size: 0.90rem;">
-                                <i class="bi bi-person-circle me-2" style="font-size: 1.2rem;"></i> <?= htmlspecialchars($username ?: 'Profil Pelamar') ?>
+                                <i class="bi bi-person-circle me-2" style="font-size: 1.2rem;"></i> 
+                                <?= htmlspecialchars($username ?: 'Profil Pelamar') ?>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="dashboard-pelamar.php">Dashboard Pelamar</a></li>
+                                <li><a class="dropdown-item" href="../pelamar/dashboard-pelamar.php">Dashboard Pelamar</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="logout-pelamar.php">Logout</a></li>
+                                <li><a class="dropdown-item" href="../pelamar/logout-pelamar.php">Logout</a></li>
                             </ul>
 
                             <?php elseif ($role === 'perusahaan'): ?>
-                                <button
-                                    class="btn dropdown-toggle d-flex align-items-center"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                    style="background-color: #e7f1a8; color: black; font-size: 0.90rem;">
-                                    <i class="bi bi-building me-2" style="font-size: 1.2rem;"></i> <?= htmlspecialchars($username ?: 'Profil Perusahaan') ?>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="../perusahaan/dashboard-perusahaan.php">Dashboard Perusahaan</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="../perusahaan/logout-perusahaan.php">Logout</a></li>
-                                </ul>
+                            <button
+                                class="btn dropdown-toggle d-flex align-items-center"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                style="background-color: #e7f1a8; color: black; font-size: 0.90rem;">
+                                <i class="bi bi-building me-2" style="font-size: 1.2rem;"></i> 
+                                <?= htmlspecialchars($username ?: 'Profil Perusahaan') ?>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="../perusahaan/dashboard-perusahaan.php">Dashboard Perusahaan</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="../perusahaan/logout-perusahaan.php">Logout</a></li>
+                            </ul>
 
                             <?php else: ?>
                                 <button
@@ -173,7 +175,6 @@ $username = $_SESSION['username'] ?? '';
                         <?php endif; ?>
                     </div>
                 </form>
-
             </div>
         </div>
     </nav>

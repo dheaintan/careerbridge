@@ -3,6 +3,27 @@ session_start();
 include '../koneksi.php';
 
 $role = strtolower($_SESSION['role'] ?? '');
+$username = $_SESSION['username'] ?? '';
+
+if ($role === 'pelamar' && isset($_SESSION['ID_user'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT nama_lengkap FROM detail_user WHERE ID_user = ?");
+        $stmt->execute([$_SESSION['ID_user']]);
+        $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+        $username = $user_data['nama_lengkap'] ?? $username;
+    } catch (PDOException $e) {
+        error_log("Gagal mengambil nama pelamar: " . $e->getMessage());
+    }
+} elseif ($role === 'perusahaan' && isset($_SESSION['ID_perusahaan'])) {
+    try {
+        $stmt = $pdo->prepare("SELECT nama_perusahaan FROM perusahaan WHERE ID_perusahaan = ?");
+        $stmt->execute([$_SESSION['ID_perusahaan']]);
+        $perusahaan_data = $stmt->fetch(PDO::FETCH_ASSOC);
+        $username = $perusahaan_data['nama_perusahaan'] ?? $username;
+    } catch (PDOException $e) {
+        error_log("Gagal mengambil nama perusahaan: " . $e->getMessage());
+    }
+}
 
 if (!isset($pdo) || is_null($pdo)) {
     die("Variabel \$pdo tidak didefinisikan. Periksa file koneksi.php.");
@@ -16,24 +37,23 @@ if (!isset($_GET['id'])) {
 $id = intval($_GET['id']);
 
 try {
-    $query = "SELECT * FROM posting_job WHERE ID_job = :id";
+    $query = "
+        SELECT 
+            l.*,
+            p.nama_perusahaan,
+            p.logo_url,
+            p.deskripsi_perusahaan
+        FROM posting_job l
+        JOIN perusahaan p ON l.ID_Perusahaan = p.ID_Perusahaan
+        WHERE l.ID_job = :id
+    ";
     $stmt = $pdo->prepare($query);
     $stmt->execute(['id' => $id]);
-    $loker = $stmt->fetch();
+    $loker = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$loker) {
         echo "Data lowongan tidak ditemukan.";
         exit;
-    }
-
-    $data = null;
-    $id_perusahaan = $loker['ID_Perusahaan'] ?? null;
-
-    if ($id_perusahaan) {
-        $query = "SELECT deskripsi_perusahaan FROM perusahaan WHERE ID_Perusahaan = :id";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute(['id' => $id_perusahaan]);
-        $data = $stmt->fetch();
     }
 
     $isLoggedIn = isset($_SESSION['ID_user']) ? true : false;
@@ -91,34 +111,76 @@ try {
                 <img src="../logo%20careerbridge.png" alt="CareerBridge" height="40" class="d-inline-block align-top">
             </a>
       
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="./pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
+                        <a class="nav-link active" aria-current="page" href="/careerbridge/pelamar/cari-loker.php" style="font-family: 'Inter', sans-serif;">Cari Lowongan Kerja</a>
                     </li>
                   
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="./perusahaan/pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
+                        <a class="nav-link active" aria-current="page" href="/careerbridge/perusahaan/pasang-loker.php" style="font-family: 'Inter', sans-serif;">Pasang Lowongan</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
+                        <a class="nav-link active" aria-current="page" href="/careerbridge/artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
                     </li>
                 </ul>
               
                 <form class="d-flex align-items-center mx-1">
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #e7f1a8; color: black; font-size: 0.90rem">
-                            Masuk
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="./pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
-                            <li><a class="dropdown-item" href="./perusahaan/masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
-                        </ul>
+                        <?php if ($role === 'pelamar'): ?>
+                            <button
+                                class="btn dropdown-toggle d-flex align-items-center"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                style="background-color: #e7f1a8; color: black; font-size: 1rem;">
+                                <i class="bi bi-person-circle me-2" style="font-size: 1.2rem;"></i> 
+                                <?= htmlspecialchars($username ?: 'Pelamar') ?>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/careerbridge/pelamar/dashboard-pelamar.php">Dashboard Pelamar</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/careerbridge/pelamar/logout-pelamar.php">Logout</a></li>
+                            </ul>
+
+                        <?php elseif ($role === 'perusahaan'): ?>
+                            <button
+                                class="btn dropdown-toggle d-flex align-items-center"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                style="background-color: #e7f1a8; color: black; font-size: 1rem;">
+                                <i class="bi bi-building me-2" style="font-size: 1.2rem;"></i> 
+                                <?= htmlspecialchars($username ?: 'Perusahaan') ?>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/careerbridge/perusahaan/dashboard-perusahaan.php">Dashboard Perusahaan</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/careerbridge/perusahaan/logout-perusahaan.php">Logout</a></li>
+                            </ul>
+
+                        <?php else: ?>
+                            <button
+                                class="btn dropdown-toggle"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                style="background-color: #e7f1a8; color: black; font-size: 1rem;">
+                                Akun
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/careerbridge/pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
+                                <li><a class="dropdown-item" href="/careerbridge/perusahaan/masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/careerbridge/pelamar/daftarpekerja.php">Daftar Pencari Kerja</a></li>
+                                <li><a class="dropdown-item" href="/careerbridge/perusahaan/daftarperusahaan.php">Daftar Perusahaan</a></li>
+                            </ul>
+                        <?php endif; ?>
                     </div>
                 </form>
             </div>
@@ -258,16 +320,18 @@ try {
             <aside class="col-lg-4">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body text-center">
-                        <div
-                            class="rounded-circle bg-secondary mx-auto mb-3"
-                            style="width: 60px; height: 60px;"
-                            aria-hidden="true"
-                        ></div>
+                        <!-- Logo Perusahaan untuk Lowongan Utama -->
+                        <img 
+    src="../uploads/logos/<?= htmlspecialchars($loker['logo_url'] ?: 'default-logo.png') ?>" 
+    alt="Logo <?= htmlspecialchars($loker['nama_perusahaan']) ?>" 
+    class="rounded-circle mx-auto mb-3" 
+    style="width: 60px; height: 60px; object-fit: cover;">
+
                         <h3 class="h6 fw-bold"><?= htmlspecialchars($loker['nama_perusahaan']) ?></h3>
                         <p class="text-muted small mb-1"><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($loker['lokasi']) ?></p>
                         <p class="small">
                             <?= htmlspecialchars($loker['nama_perusahaan']) ?> adalah
-                            <?= htmlspecialchars($data['deskripsi_perusahaan'] ?? 'Deskripsi perusahaan tidak tersedia') ?>.
+                            <?= htmlspecialchars($loker['deskripsi_perusahaan'] ?? 'Deskripsi perusahaan tidak tersedia') ?>.
                         </p>
                     </div>
                 </div>
@@ -277,10 +341,12 @@ try {
                         <h2 class="h6 fw-bold mb-3">Lowongan Serupa</h2>
                         <?php
                         try {
+                            // Query untuk lowongan serupa, termasuk logo perusahaan
                             $query = "
                                 SELECT
                                     l.ID_job,
                                     p.nama_perusahaan,
+                                    p.logo_url,
                                     l.posisi,
                                     l.lokasi,
                                     l.tipe_pekerjaan,
@@ -301,11 +367,7 @@ try {
                         ?>
                             <a href="detail-pekerjaan.php?id=<?= $row['ID_job'] ?>" class="text-decoration-none text-dark d-block mb-3">
                                 <div class="d-flex gap-3 align-items-center">
-                                    <div
-                                        class="rounded-circle bg-secondary"
-                                        style="width: 75px; height: 75px;"
-                                        aria-hidden="true"
-                                    ></div>
+                                    <img src="../uploads/logos/<?= htmlspecialchars($row['logo_url'] ?: '../logo%20careerbridge.png') ?>" alt="Logo <?= htmlspecialchars($row['nama_perusahaan']) ?>" class="rounded-circle" style="width: 75px; height: 75px; object-fit: cover;" onerror="this.src='/careerbridge/logo%20careerbridge.png'; console.log('Gagal memuat logo: ../uploads/logos/<?= htmlspecialchars($row['logo_url'] ?: '../logo%20careerbridge.png') ?>');">
                                     <div class="flex-grow-1">
                                         <div class="text-primary small"><?= htmlspecialchars($row['nama_perusahaan']) ?></div>
                                         <div class="fw-bold fs-5" style="font-family: 'M PLUS Rounded 1c', sans-serif;">
@@ -407,10 +469,10 @@ try {
                         alert('Lowongan berhasil disimpan!');
                     }
                 } else {
-                    alert('Gagal menyimpan lowongan: ' + data.message);
+                    alert('Gagal menyimpan lowongan: ' . data.message);
                 }
             })
-            .catch(error => alert('Terjadi kesalahan: ' + error.message));
+            .catch(error => alert('Terjadi kesalahan: ' . error.message));
         }
 
         function applyJob(jobId) {
@@ -428,10 +490,10 @@ try {
                     alert('Lamaran berhasil dikirim!');
                     window.location.href = "../pelamar/dashboard-pelamar.php";
                 } else {
-                    alert('Gagal melamar: ' + data.message);
+                    alert('Gagal melamar: ' . data.message);
                 }
             })
-            .catch(error => alert('Terjadi kesalahan saat melamar: ' + error.message));
+            .catch(error => alert('Terjadi kesalahan saat melamar: ' . error.message));
         }
     </script>
 </body>

@@ -2,42 +2,67 @@
 session_start();
 include '../koneksi.php';
 
-if (!isset($_SESSION['ID_perusahaan'])) {
+if (!isset($_SESSION['ID_perusahaan'], $_SESSION['role']) || $_SESSION['role'] !== 'perusahaan') {
     echo "Silakan login terlebih dahulu.";
     exit;
 }
 
 $id_perusahaan = $_SESSION['ID_perusahaan'];
+echo "<!-- Debug Sesi: ID_perusahaan = $id_perusahaan, Role = {$_SESSION['role']} -->";
 
 try {
+    // Ambil data perusahaan
     $stmt = $pdo->prepare("SELECT nama_perusahaan, email FROM perusahaan WHERE ID_perusahaan = ?");
     $stmt->execute([$id_perusahaan]);
-    $data = $stmt->fetch();
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$data) {
         die("Data perusahaan tidak ditemukan.");
     }
 
-    $stmt_pelamar = $pdo->prepare("
-        SELECT COUNT(*) as total_pelamar
-        FROM pelamar p
-        INNER JOIN posting_job pj ON p.ID_job = pj.ID_job
-        WHERE pj.ID_perusahaan = ?
-    ");
-    $stmt_pelamar->execute([$id_perusahaan]);
-    $data_pelamar = $stmt_pelamar->fetch();
-    $total_pelamar = $data_pelamar['total_pelamar'];
-
     $nama_perusahaan = $data['nama_perusahaan'];
     $email_perusahaan = $data['email'];
 
+    // Hitung jumlah lowongan
     $stmt_lowongan = $pdo->prepare("SELECT COUNT(*) as total_lowongan FROM posting_job WHERE ID_perusahaan = ?");
     $stmt_lowongan->execute([$id_perusahaan]);
-    $data_lowongan = $stmt_lowongan->fetch();
+    $data_lowongan = $stmt_lowongan->fetch(PDO::FETCH_ASSOC);
     $total_lowongan = $data_lowongan['total_lowongan'];
 
+    // Hitung jumlah lamaran (mengganti tabel pelamar dengan apply_job)
+    $stmt_lamaran = $pdo->prepare("
+        SELECT COUNT(*) as total_lamaran
+        FROM apply_job aj
+        INNER JOIN posting_job pj ON aj.ID_job = pj.ID_job
+        WHERE pj.ID_perusahaan = ?
+    ");
+    $stmt_lamaran->execute([$id_perusahaan]);
+    $data_lamaran = $stmt_lamaran->fetch(PDO::FETCH_ASSOC);
+    $total_lamaran = $data_lamaran['total_lamaran'];
+
+    // Ambil 5 lamaran terbaru
+    $query_lamaran = "
+        SELECT
+            aj.ID_apply,
+            aj.created_at AS tanggal_lamar,
+            aj.status_lamaran,
+            p.nama_lengkap,
+            u.email AS user_email,
+            pj.posisi
+        FROM apply_job aj
+        JOIN detail_user p ON aj.ID_user = p.ID_user
+        JOIN login_signup u ON aj.ID_user = u.ID_user
+        JOIN posting_job pj ON aj.ID_job = pj.ID_job
+        WHERE pj.ID_perusahaan = :id_perusahaan
+        ORDER BY aj.created_at DESC
+        LIMIT 5
+    ";
+    $stmt_lamaran_terbaru = $pdo->prepare($query_lamaran);
+    $stmt_lamaran_terbaru->execute(['id_perusahaan' => $id_perusahaan]);
+    $lamaran_terbaru = $stmt_lamaran_terbaru->fetchAll(PDO::FETCH_ASSOC);
+    echo "<!-- Debug Lamaran Terbaru: " . print_r($lamaran_terbaru, true) . " -->";
 } catch (PDOException $e) {
-    die("Query gagal: " . $e->getMessage());
+    die("Query gagal: " . htmlspecialchars($e->getMessage()));
 }
 ?>
 
@@ -93,7 +118,7 @@ try {
                         <div class="card text-dark mb-3" style="background-color: #E7F1A8;">
                             <div class="card-body">
                                 <h5 class="card-title">Total Pelamar</h5>
-                                <p class="card-text fs-4"><?php echo $total_pelamar; ?></p>
+                                <p class="card-text fs-4"><?php echo $total_lamaran; ?></p> <!-- Ganti $total_pelamar menjadi $total_lamaran -->
                             </div>
                         </div>
                     </div>

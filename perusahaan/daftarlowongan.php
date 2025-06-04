@@ -2,6 +2,9 @@
 session_start();
 include '../koneksi.php';
 
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+
 if (!isset($_SESSION['ID_perusahaan'])) {
     echo "Silakan login terlebih dahulu.";
     exit;
@@ -13,6 +16,7 @@ try {
     $stmt_lowongan = $pdo->prepare("SELECT * FROM posting_job WHERE ID_perusahaan = ? ORDER BY tanggal_posting DESC");
     $stmt_lowongan->execute([$id_perusahaan]);
     $lowongan_list = $stmt_lowongan->fetchAll();
+    echo "<!-- Debug Lowongan: " . print_r($lowongan_list, true) . " -->";
 } catch (PDOException $e) {
     die("Query gagal: " . $e->getMessage());
 }
@@ -65,10 +69,16 @@ try {
                             <td><?php echo date('d F Y', strtotime($lowongan['tanggal_posting'])); ?></td>
                             <td>
                                 <?php
-                                    $stmt_pelamar = $pdo->prepare("SELECT COUNT(*) FROM pelamar WHERE ID_job = ?");
-                                    $stmt_pelamar->execute([$lowongan['ID_job']]);
-                                    $jumlah_pelamar = $stmt_pelamar->fetchColumn();
-                                    echo $jumlah_pelamar;
+                                $stmt_pelamar = $pdo->prepare("SELECT COUNT(*) FROM apply_job WHERE ID_job = ?");
+                                $stmt_pelamar->execute([$lowongan['ID_job']]);
+                                $jumlah_pelamar = $stmt_pelamar->fetchColumn();
+                                echo "<!-- Debug: ID_job = {$lowongan['ID_job']}, Jumlah Pelamar = $jumlah_pelamar -->";
+                                // Debug data pelamar
+                                $stmt_debug = $pdo->prepare("SELECT * FROM apply_job WHERE ID_job = ?");
+                                $stmt_debug->execute([$lowongan['ID_job']]);
+                                $pelamar_list = $stmt_debug->fetchAll();
+                                echo "<!-- Debug Pelamar: " . print_r($pelamar_list, true) . " -->";
+                                echo $jumlah_pelamar;
                                 ?>
                             </td>
                             <td>

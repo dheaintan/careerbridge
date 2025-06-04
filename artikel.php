@@ -1,14 +1,22 @@
+<?php
+session_start();
+include 'koneksi.php';
+
+$role = strtolower($_SESSION['role'] ?? '');
+$username = $_SESSION['username'] ?? '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tips Loker</title>
-    <link rel="icon" type="image/x-icon" href="logo careerbridge.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
-    <link href="./assets/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tips Loker</title>
+  <link rel="icon" type="image/x-icon" href="logo careerbridge.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap" rel="stylesheet">
+  <link href="./assets/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -40,13 +48,52 @@
         
         <form class="d-flex align-items-center mx-1">
           <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #e7f1a8; color: black; font-size: 0.90rem">
-              Masuk
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="./pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
-              <li><a class="dropdown-item" href="./perusahaan/masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
-            </ul>
+            <?php if ($role === 'pelamar'): ?>
+              <button
+                class="btn dropdown-toggle d-flex align-items-center"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="background-color: #e7f1a8; color: black; font-size: 0.90rem;">
+                <i class="bi bi-person-circle me-2" style="font-size: 1.2rem;"></i> 
+                <?= htmlspecialchars($username ?: 'Profil Pelamar') ?>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="./pelamar/dashboard-pelamar.php">Dashboard Pelamar</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="./pelamar/logout-pelamar.php">Logout</a></li>
+              </ul>
+
+              <?php elseif ($role === 'perusahaan'): ?>
+              <button
+                class="btn dropdown-toggle d-flex align-items-center"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="background-color: #e7f1a8; color: black; font-size: 0.90rem;">
+                <i class="bi bi-building me-2" style="font-size: 1.2rem;"></i> 
+                <?= htmlspecialchars($username ?: 'Profil Perusahaan') ?>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="./perusahaan/dashboard-perusahaan.php">Dashboard Perusahaan</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="./perusahaan/logout-perusahaan.php">Logout</a></li>
+              </ul>
+
+              <?php else: ?>
+                  <button
+                    class="btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    style="background-color: #e7f1a8; color: black; font-size: 0.90rem;">
+                    Masuk
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="./pelamar/masukpekerja.php">Masuk sebagai Pencari Kerja</a></li>
+                    <li><a class="dropdown-item" href="./perusahaan/masukperusahaan.php">Masuk sebagai Perusahaan</a></li>
+                  </ul>
+            <?php endif; ?>
           </div>
         </form>
       </div>
@@ -57,7 +104,6 @@
     <div style="background-image: url('koran.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
     </div>
     
-    <!-- Teks di atas gambar -->
     <div class="container text-dark position-relative" style="z-index: 2; padding-top: 80px;">
       <h3 class="fw-bold">Tips Loker</h3>
       <p>Jangan Ketinggalan! Update seputar dunia kerja ada di sini!</p>
@@ -71,45 +117,42 @@
   <div class="container py-4">
     <div class="row g-3 justify-content-center">
     
-      <!-- Card 1 -->
       <div class="col-md-4 col-sm-6 col-12 d-flex justify-content-center">
-        <a href="detail-artikel.html" class="text-decoration-none">
+        <a href="detail-artikel-1.php" class="text-decoration-none">
           <div class="card bg-dark text-white border-0 rounded-4 overflow-hidden" style="width: 410px; height: 205px;">
             <div class="position-relative h-100 w-100">
-              <img src="header.jpg" class="w-100 h-100 object-fit-cover" alt="Wajib Tahu, Karakter HR">
+              <img src="./picture/detail-artikel1.jpg" class="w-100 h-100 object-fit-cover" alt="Tips Sukses">
               <div class="card-img-overlay d-flex flex-column justify-content-end p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
-                <h5 class="card-title fw-bold mb-1">Wajib Tahu, Karakter HR di Dunia Kerja</h5>
-                <small class="text-white-50">6 hari yang lalu</small>
+                <h5 class="card-title fw-bold mb-1">5 Tips Sukses Menghadapi Dunia Kerja di Era Digital</h5>
+                <small class="text-white-50">3 menit yang lalu</small>
             </div>
             </div>
           </div>
         </a>
       </div>
     
-      <!-- Card 2 -->
       <div class="col-md-4 col-sm-6 col-12 d-flex justify-content-center">
-        <a href="detail-artikel.html" class="text-decoration-none">
+        <a href="detail-artikel-2.php" class="text-decoration-none">
           <div class="card bg-dark text-white border-0 rounded-4 overflow-hidden" style="width: 410px; height: 205px;">
             <div class="position-relative h-100 w-100">
-              <img src="koran.jpg" class="w-100 h-100 object-fit-cover" alt="Tips Merekrut Gen-Z">
+              <img src="./picture/detail-artikel2.jpg" class="w-100 h-100 object-fit-cover" alt="Tren Dunia Kerja">
               <div class="card-img-overlay d-flex flex-column justify-content-end p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
-                <h5 class="card-title fw-bold mb-1">Tips Merekrut Gen-Z</h5>
-                <small class="text-white-50">Sekitar 1 tahun yang lalu</small>
+                <h5 class="card-title fw-bold mb-1">Tren Dunia Kerja 2025: Siap Menyambut Masa Depan?</h5>
+                <small class="text-white-50">1 jam yang lalu</small>
               </div>
             </div>
           </div>
         </a>
       </div>
     
-      <!-- Card 3 -->
       <div class="col-md-4 col-sm-6 col-12 d-flex justify-content-center">
-        <a href="detail-artikel.html" class="text-decoration-none">
+        <a href="detail-artikel-3.php" class="text-decoration-none">
           <div class="card bg-dark text-white border-0 rounded-4 overflow-hidden" style="width: 410px; height: 205px;">
             <div class="position-relative h-100 w-100">
-              <img src="download.jpg" class="w-100 h-100 object-fit-cover" alt="Tips Wawancara Final">
+              <img src="./picture/detail-artikel3.jpg" class="w-100 h-100 object-fit-cover" alt="Menemukan Passion">
               <div class="card-img-overlay d-flex flex-column justify-content-end p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
-                <h5 class="card-title fw-bold mb-1">Sukses di Wawancara Final, Ini Tipsnya!</h5>
-                <small class="text-white-50">Sekitar 10 bulan yang lalu</small>
+                <h5 class="card-title fw-bold mb-1">Menemukan Passion: Kunci Karier yang Bermakna</h5>
+                <small class="text-white-50">3 jam yang lalu</small>
               </div>
             </div>
           </div>
@@ -122,62 +165,50 @@
   <div class="container py-4">
     <h5 class="fw-bold mb-4">Tips Terbaru</h5>
     
-    <!-- Card 1 -->
-    <a href="detail-artikel.html" class="text-decoration-none text-dark">
+    <a href="detail-artikel-4.php" class="text-decoration-none text-dark">
       <div class="d-flex mb-4 gap-3 align-items-start">
-        <img src="Desain tanpa judul.png" alt="Gambar Artikel 1" class="rounded-4 object-fit-cover" style="width: 300px; height: 150px;">
+        <img src="./picture/detail-artikel4.jpg" alt="Merajut Makna" class="rounded-4 object-fit-cover" style="width: 300px; height: 150px;">
         <div>
-          <small class="text-muted">7 hari yang lalu</small>
-          <h6 class="fw-bold mt-1">Bagaimana Potensi Kerja Lulusan SMK di Tahun 2025?</h6>
+          <small class="text-muted">1 menit yang lalu</small>
+          <h6 class="fw-bold mt-1">Merajut Makna dalam Karier</h6>
         </div>
       </div>
     </a>
     
-    <!-- Card 2 -->
-    <a href="detail-artikel.html" class="text-decoration-none text-dark">
+    <a href="detail-artikel-5.php" class="text-decoration-none text-dark">
       <div class="d-flex mb-4 gap-3 align-items-start">
-        <img src="header.jpg" alt="Gambar Artikel 2" class="rounded-4 object-fit-cover" style="width: 300px; height: 150px;">
+        <img src="./picture/detail-artikel5.jpg" alt="Harapan atau Ilusi?" class="rounded-4 object-fit-cover" style="width: 300px; height: 150px;">
         <div>
-          <small class="text-muted">Sekitar 1 bulan yang lalu</small>
-          <h6 class="fw-bold mt-1">Jangan Pernah Meragukan Kehebatan Karyawan Wanita, Ini Skill yang Hanya Dimiliki Ibu Bekerja</h6>
+          <small class="text-muted">5 menit yang lalu</small>
+          <h6 class="fw-bold mt-1">19 Juta Lowongan Kerja: Harapan atau Ilusi?</h6>
         </div>
       </div>
     </a>
     
-    <!-- Card 3 -->
-    <a href="detail-artikel.html" class="text-decoration-none text-dark">
+    <a href="detail-artikel-6.php" class="text-decoration-none text-dark">
       <div class="d-flex mb-4 gap-3 align-items-start">
-        <img src="koran.jpg" alt="Gambar Artikel 3" class="rounded-4 object-fit-cover" style="width: 300px; height: 150px;">
+        <img src="./picture/detail-artikel6.jpg" alt="Ibu Pekerja" class="rounded-4 object-fit-cover" style="width: 300px; height: 150px;">
         <div>
-          <small class="text-muted">Sekitar 1 bulan yang lalu</small>
-          <h6 class="fw-bold mt-1">Dear Leader, Memuji Karyawan itu Penting</h6>
+          <small class="text-muted">10 menit yang lalu</small>
+          <h6 class="fw-bold mt-1">Ibu Pekerja: Menyeimbangkan Cinta dan Karier</h6>
         </div>
       </div>
     </a>
     
-    <!-- Card 4 -->
-    <a href="detail-artikel.html" class="text-decoration-none text-dark">
+    <a href="detail-artikel-7.php" class="text-decoration-none text-dark">
       <div class="d-flex mb-4 gap-3 align-items-start">
-        <img src="download.jpg" alt="Gambar Artikel 4" class="rounded-4 object-fit-cover" style="width: 300px; height: 150px;">
+        <img src="./picture/detail-artikel7.jpg" alt="Kesederhanaan Kerja" class="rounded-4 object-fit-cover" style="width: 300px; height: 150px;">
         <div>
-          <small class="text-muted">27 hari yang lalu</small>
-          <h6 class="fw-bold mt-1">Wawancara Online Vs Offline, Efektif Mana?</h6>
+          <small class="text-muted">15 menit yang lalu</small>
+          <h6 class="fw-bold mt-1">Kebahagiaan dalam Kesederhanaan Kerja</h6>
         </div>
       </div>
     </a>
-    
-    <!-- Tombol Lihat Lebih Banyak -->
-    <div class="text-center mt-4">
-      <a href="semua-artikel.html" class="text-decoration-none fw-medium text-dark">Lihat lebih banyak
-        <div style="width: 100px; height: 1px; background: #000; margin: 4px auto 0;"></div>
-      </a>
-    </div>
   </div>
       
   <footer class="text-dark py-5 bg-light">
     <div class="container">
       <div class="row">
-        <!-- Logo dan Deskripsi -->
         <div class="col-md-5">
           <div class="d-flex align-items-start mb-3">
             <img src="logo careerbridge.png" alt="CareerBridge" height="100" class="d-inline-block align-top">
@@ -187,7 +218,6 @@
           </p>
         </div>
   
-        <!-- Tentang Kami -->
         <div class="col-md-2">
           <h6 class="fw-bold">Tentang Kami</h6>
           <div class="d-flex flex-column">
@@ -197,7 +227,6 @@
           </div>
         </div>
   
-        <!-- Pencari Kerja -->
         <div class="col-md-2">
           <h6 class="fw-bold">Pencari Kerja</h6>
           <div class="d-flex flex-column">
@@ -207,7 +236,6 @@
           </div>
         </div>
   
-        <!-- Perusahaan -->
         <div class="col-md-3">
           <h6 class="fw-bold">Perusahaan</h6>
           <div class="d-flex flex-column">
@@ -217,7 +245,6 @@
         </div>
       </div>
   
-      <!-- Copyright -->
       <div class="text-center mt-4 text-muted small">
         <i class="bi bi-c-circle"></i> 2025 CareerBridge - Semua Hak Dilindungi
       </div>
