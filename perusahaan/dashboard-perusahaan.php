@@ -11,7 +11,6 @@ $id_perusahaan = $_SESSION['ID_perusahaan'];
 echo "<!-- Debug Sesi: ID_perusahaan = $id_perusahaan, Role = {$_SESSION['role']} -->";
 
 try {
-    // Ambil data perusahaan
     $stmt = $pdo->prepare("SELECT nama_perusahaan, email FROM perusahaan WHERE ID_perusahaan = ?");
     $stmt->execute([$id_perusahaan]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -23,13 +22,11 @@ try {
     $nama_perusahaan = $data['nama_perusahaan'];
     $email_perusahaan = $data['email'];
 
-    // Hitung jumlah lowongan
     $stmt_lowongan = $pdo->prepare("SELECT COUNT(*) as total_lowongan FROM posting_job WHERE ID_perusahaan = ?");
     $stmt_lowongan->execute([$id_perusahaan]);
     $data_lowongan = $stmt_lowongan->fetch(PDO::FETCH_ASSOC);
     $total_lowongan = $data_lowongan['total_lowongan'];
 
-    // Hitung jumlah lamaran (mengganti tabel pelamar dengan apply_job)
     $stmt_lamaran = $pdo->prepare("
         SELECT COUNT(*) as total_lamaran
         FROM apply_job aj
@@ -40,12 +37,10 @@ try {
     $data_lamaran = $stmt_lamaran->fetch(PDO::FETCH_ASSOC);
     $total_lamaran = $data_lamaran['total_lamaran'];
 
-    // Ambil 5 lamaran terbaru
     $query_lamaran = "
         SELECT
             aj.ID_apply,
             aj.created_at AS tanggal_lamar,
-            aj.status_lamaran,
             p.nama_lengkap,
             u.email AS user_email,
             pj.posisi
@@ -118,7 +113,7 @@ try {
                         <div class="card text-dark mb-3" style="background-color: #E7F1A8;">
                             <div class="card-body">
                                 <h5 class="card-title">Total Pelamar</h5>
-                                <p class="card-text fs-4"><?php echo $total_lamaran; ?></p> <!-- Ganti $total_pelamar menjadi $total_lamaran -->
+                                <p class="card-text fs-4"><?php echo $total_lamaran; ?></p>
                             </div>
                         </div>
                     </div>

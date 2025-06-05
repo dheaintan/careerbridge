@@ -18,7 +18,6 @@ try {
         SELECT
             aj.ID_apply,
             aj.created_at AS tanggal_lamar,
-            aj.status_lamaran,
             p.ID_user AS pelamar_id,
             p.nama_lengkap,
             p.no_telp,
@@ -99,7 +98,6 @@ try {
                         <th>Nama Pelamar</th>
                         <th>Email</th>
                         <th>Tanggal Lamar</th>
-                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -114,15 +112,6 @@ try {
                             $tanggal = isset($l['tanggal_lamar']) && $l['tanggal_lamar'] ? date('d-m-Y', strtotime($l['tanggal_lamar'])) : 'Tidak tersedia';
                             echo htmlspecialchars($tanggal);
                             ?>
-                        </td>
-                        <td>
-                            <?php
-                            $status = $l['status_lamaran'] ?? 'N/A';
-                            $badge_class = $status === 'buka' ? 'bg-success' : 'bg-secondary';
-                            ?>
-                            <span class="badge <?php echo $badge_class; ?>">
-                                <?php echo htmlspecialchars($status); ?>
-                            </span>
                         </td>
                         <td>
                             <a href="detail-pelamar.php?ID_apply=<?php echo htmlspecialchars((string)($l['ID_apply'] ?? '')); ?>" class="btn btn-sm btn-primary">Lihat Profil</a>

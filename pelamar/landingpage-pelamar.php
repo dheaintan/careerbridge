@@ -2,6 +2,9 @@
 session_start();
 include '../koneksi.php';
 
+$role = strtolower($_SESSION['role'] ?? '');
+$username = $_SESSION['username'] ?? '';
+
 if (!isset($_SESSION['ID_user'])) {
     header('Location: masukpekerja.php');
     exit;
@@ -69,20 +72,18 @@ if (!isset($_SESSION['ID_user'])) {
                     </div>
                 </div>
     
-                <div class="row mt-3">
+                <div class="row mt-1">
                     <div class="col">
-                        <div class="card p-4 bg-light" style="border-radius: 10px; border: 1px solid #ddd; width: 600px; max-width: 100%">
-                            <div class="d-flex align-items-center mb-3">
-                                <input type="search" id="search-job" name="q" placeholder="Masukkan kata kunci" class="form-control" style="max-width: 500px; border: 1px solid black;">
-                                <button type="submit" class="btn" style="background-color: #e7f1a8; color: black; border: none; margin-left: 10px;">
-                                    <i class="bi bi-search"></i>
-                                </button>        
+                        <div class="card p-3 bg-light" style="border: 1px solid #ddd; width: 500px; max-width: auto">
+                            <div class="d-flex align-items-center mb-1">
+                                <form method="GET" action="cari-loker.php" class="d-flex justify-content-center align-items-center gap-3">
+                                    <input type="text" id="search-job" name="posisi" placeholder="Masukkan posisi pekerjaan" class="form-control" style="max-width: 500px; border: 1px solid black;" autocomplete="off" value="<?= htmlspecialchars($_GET['posisi'] ?? '') ?>">
+                                    <input type="text" id="search-location" name="lokasi" placeholder="Masukkan lokasi" class="form-control" style="max-width: 300px; border: 1px solid black;" autocomplete="off" value="<?= htmlspecialchars($_GET['lokasi'] ?? '') ?>">
+                                    <button type="submit" class="btn" style="background-color: #e7f1a8; color: black; border: none;">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </form>      
                             </div>
-
-                            <form action="#" method="GET" class="d-flex gap-3">
-                                <input type="search" id="search-location" name="location" placeholder="Cari lokasi" class="form-control" style="max-width: 300px; border: 1px solid black;">  
-                                <input type="search" id="search-category" name="category" placeholder="Cari kategori" class="form-control" style="max-width: 300px; border: 1px solid black;">
-                            </form>
                         </div>
                     </div>
                 </div>

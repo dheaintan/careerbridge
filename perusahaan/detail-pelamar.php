@@ -26,13 +26,13 @@ try {
         SELECT
             aj.ID_apply,
             aj.created_at AS tanggal_lamar,
-            aj.status_lamaran,
             p.ID_user AS pelamar_id,
             p.nama_lengkap,
             p.no_telp,
             p.alamat,
             p.pendidikan_terakhir,
             p.jenis_kelamin,
+            p.CV,
             u.email AS user_email,
             pj.posisi,
             pj.nama_perusahaan
@@ -54,6 +54,13 @@ try {
               </script>';
         exit();
     }
+
+    $cv_path = !empty($pelamar['CV']) ? 'uploads/cv/' . $pelamar['CV'] : '';
+
+    $email = htmlspecialchars($pelamar['user_email'] ?? '');
+    $subject = rawurlencode("Proses Lebih Lanjut Lamaran Pekerjaan - {$pelamar['posisi']}");
+    $body = rawurlencode("Kepada Yth. {$pelamar['nama_lengkap']},\n\nKami dari {$pelamar['nama_perusahaan']} ingin menginformasikan bahwa lamaran Anda untuk posisi {$pelamar['posisi']} sedang dalam proses lebih lanjut. Silakan balas email ini untuk informasi lebih lanjut.\n\nTerima kasih,\n{$pelamar['nama_perusahaan']}");
+    $mailto_link = "mailto:{$email}?subject={$subject}&body={$body}";
 } catch (PDOException $e) {
     die("Error: " . htmlspecialchars($e->getMessage()));
 }
@@ -105,15 +112,23 @@ try {
                             echo htmlspecialchars($tanggal);
                             ?>
                         </p>
-                        <p><strong>Status Lamaran:</strong> 
-                            <?php
-                            $status = $pelamar['status_lamaran'] ?? 'N/A';
-                            $badge_class = $status === 'buka' ? 'bg-success' : 'bg-secondary';
-                            ?>
-                            <span class="badge <?php echo $badge_class; ?>">
-                                <?php echo htmlspecialchars($status); ?>
-                            </span>
-                        </p>
+                    </div>
+                    <div class="mt-3">
+                        <?php if (!empty($cv_path) && file_exists("../" . $cv_path)): ?>
+                            <a href="../<?php echo htmlspecialchars($cv_path); ?>" target="_blank" class="btn btn-primary">
+                                <i class="bi bi-file-earmark-pdf me-2"></i>Lihat CV
+                            </a>
+                        <?php else: ?>
+                            <button class="btn btn-secondary" disabled>CV Tidak Tersedia</button>
+                        <?php endif; ?>
+                        
+                        <?php if (!empty($email)): ?>
+                        <a href="<?php echo $mailto_link; ?>" class="btn btn-success">
+                            <i class="bi bi-envelope me-2"></i>Kirim Pesan
+                        </a>
+                        <?php else: ?>
+                            <button class="btn btn-secondary" disabled>Email Tidak Tersedia</button>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
