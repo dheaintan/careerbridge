@@ -47,7 +47,7 @@ if ($isLoggedIn && $role === 'perusahaan') {
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../artikel.html" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
+                            <a class="nav-link active" aria-current="page" href="../artikel.php" style="font-family: 'Inter', sans-serif;">Tips Loker</a>
                         </li>
                     </ul>
                     
