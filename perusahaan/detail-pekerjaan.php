@@ -362,7 +362,6 @@ try {
                             $stmt = $pdo->prepare($query);
                             $stmt->execute();
                             $lowongan = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
                             foreach ($lowongan as $row):
                         ?>
                             <a href="detail-pekerjaan.php?id=<?= $row['ID_job'] ?>" class="text-decoration-none text-dark d-block mb-3">
@@ -476,25 +475,43 @@ try {
         }
 
         function applyJob(jobId) {
-            fetch('../pelamar/simpan_lamaran.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `job_id=${jobId}`
-            })
-            .then(response => {
-                if (!response.ok) throw new Error(response.statusText);
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert('Lamaran berhasil dikirim!');
-                    window.location.href = "../pelamar/dashboard-pelamar.php";
-                } else {
-                    alert('Gagal melamar: ' . data.message);
-                }
-            })
-            .catch(error => alert('Terjadi kesalahan saat melamar: ' . error.message));
+    console.log('Mengirim lamaran untuk jobId:', jobId);
+    fetch('../pelamar/simpan_lamaran.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `job_id=${jobId}`
+    })
+    .then(response => {
+        console.log('Status HTTP:', response.status);
+        console.log('Content-Type:', response.headers.get('Content-Type'));
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        return response.text();
+    })
+    .then(text => {
+        console.log('Respons mentah:', text);
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            console.error('Gagal parsing JSON:', e);
+            alert('Terjadi kesalahan: Respons server tidak valid. Cek konsol untuk detail.');
+            return;
+        }
+        console.log('Respons data:', data);
+        if (data.success) {
+            alert('Lamaran berhasil dikirim!');
+            window.location.href = "../pelamar/dashboard-pelamar.php";
+        } else {
+            alert('Gagal melamar: ' + (data.message || 'Pesan error tidak tersedia'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat melamar: ' + error.message);
+    });
+}
     </script>
 </body>
 </html>
